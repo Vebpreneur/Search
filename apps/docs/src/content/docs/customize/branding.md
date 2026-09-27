@@ -35,7 +35,7 @@ public/
 └── favicon.svg   # browser tab icon
 ```
 
-Both fields are optional and there is no filename convention behind them — Grove renders exactly what you point it at (`site.logo`/`site.favicon` can be any path under `public/`). Leave `logo` unset and the header shows a neutral mark next to the site name (`packages/astro/src/layouts/Header.astro`); leave `favicon` unset and `<link rel="icon">` gets a generated square data-URI tinted with your `theme.primaryColor` (`packages/astro/src/layouts/BaseLayout.astro`).
+Both fields are optional and there is no filename convention behind them — Grove renders exactly what you point it at (`site.logo`/`site.favicon` can be any path under `public/`). Leave `logo` unset and the header shows a neutral mark next to the site name (`src/layouts/header.astro`); leave `favicon` unset and `<link rel="icon">` gets a generated square data-URI tinted with your `theme.primaryColor` (`src/layouts/base-layout.astro`).
 
 Grove only emits that one `<link rel="icon">` tag — it does not look for `favicon.ico` or `apple-touch-icon.png` by convention. Add those yourself under `public/` (and the matching `<link>` tags) if you want the legacy-browser and iOS home-screen affordances.
 
@@ -45,7 +45,7 @@ If you only ship one file, ship `logo.svg`.
 
 `grove check` (and every `astro dev`/`astro build`, since both run the same `prepareDirectory` pipeline) generates `public/og-image.svg` (1200×630) from your `site` block and `theme.primaryColor`. The file carries an ownership marker comment; edit the file yourself (or just delete the marker comment) and Grove stops regenerating it — your version wins on every future build (`packages/core/src/site-artifacts.ts`).
 
-The default OG/Twitter image is always `/og-image.svg` — there's no automatic PNG fallback. If a platform you care about doesn't render SVG previews well, generate your own PNG and pass it explicitly as the `image` prop to `BaseLayout` (or `<Seo>`) on the pages that need it; dropping a file at `public/og-image.png` alone does nothing.
+Every page also gets a PNG card: the build renders `public/og/**` with satori (home, records, collections, taxonomy pages), and the page models point `og:image` at the page's own card, falling back to `/og/default.png`. `/og-image.svg` is the site-wide fallback when no PNG exists. To use your own image on a page, pass it as the `image` prop to `BaseLayout`; dropping a file at `public/og-image.png` alone does nothing.
 
 ## What NOT to put in `site`
 

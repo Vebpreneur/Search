@@ -201,7 +201,7 @@ collect telemetry. The only network calls the CLI makes are:
    rendered page is loaded in a browser.
 
 A built site has no JavaScript that phones home unless the user adds
-it. `@grove-dev/astro`'s `BaseLayout.astro` has one built-in
+it. The scaffold's `src/layouts/base-layout.astro` has one built-in
 third-party script — Google Analytics — and it only renders when
 `site.analytics.googleAnalyticsId` is set in `grove.config.ts`; with
 no ID configured, no analytics script ships.

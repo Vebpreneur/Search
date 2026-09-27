@@ -69,10 +69,10 @@ Filter and search query strings (`/projects/?...`, `/search?...`) aren't written
 
 ## Customizing the browse UI
 
-The browse page template lives in `@grove-dev/astro`'s `DirectoryIndexClient` and `FilterGroupMenu` components. Consumers customize via:
+The browse page is registry files in your project — `src/components/grove/directory-browse-view.astro`, `directory-index-client.astro` and `filter-group-menu.astro` — so you can edit them directly. You can also customize via:
 
 - `src/styles/global.css` for tokens.
-- Replacing `DirectoryIndexClient` in the directory's `index.astro` page with a custom layout, while keeping the data adapters from `@grove-dev/astro/server`.
+- Replacing `directory-index-client` in the directory's `index.astro` page with a custom layout, while keeping the data adapters from `@grove-dev/astro/server`.
 - Writing a custom filter-URL parser if the default `URLSearchParams` shape doesn't fit.
 
 The framework owns the data model; the consumer owns the presentation.

@@ -27,7 +27,7 @@ When you sit down to add a record, answer these in order:
 
 3. **Is it worth listing?**
 
-   If you have to ask, list it. `classifyHealth()` starts new records at `experimental` tier; it promotes to `listed` at 50+ GitHub stars, and to `curated` once stars reach 500 and maintenance signals (a recent release or a clear license) are present.
+   If you have to ask, list it. `classifyHealth()` starts new records at `experimental` tier; it promotes to `listed` at 50+ GitHub stars, and to `curated` at 500+ stars. A recent release or a clear license raise its `maturity`, not its tier; an archived or inactive repository is `hidden`.
 
 4. **What category?**
 
@@ -174,7 +174,9 @@ The fields below are valid for any record regardless of `kind`. They come from `
 
 ```yaml title="packages/core/src/schema.ts:resourceBaseSchema"
 # resourceBaseSchema fields
-slug: my-record                            # matches filename; kebab-case by convention
+slug: my-record                            # matches filename; required in YAML, optional in Markdown
+addedAt: 2026-09-27                         # optional; when it joined — orders "Recently added"
+submittedBy: octocat                        # optional; GitHub login credited on the page
 description: One-line summary.             # default: ""
 summary: Curator-written lead paragraph.    # optional; rendered above `description` when set
 sourceDescription: Original-from-GitHub.   # optional; the GitHub-sourced description, kept separate from `description`
@@ -210,11 +212,11 @@ The slug must match the filename. `kind` is `project` for every record today —
 | Schema | Path |
 |---|---|
 | Resource base (shared) | `packages/core/src/schema.ts:resourceBaseSchema` |
-| `projectRecordSchema` | `packages/core/src/schema.ts:351` |
-| `resourceRecordSchema` | `packages/core/src/schema.ts:432` |
-| `entityRecordSchema` | `packages/core/src/schema.ts:448` |
-| `resourceSchema` (discriminated union) | `packages/core/src/schema.ts:464` |
-| `recordsFileSchema` (one file = one record) | `packages/core/src/schema.ts:487` |
+| `projectRecordSchema` | `packages/core/src/schema.ts` |
+| `resourceRecordSchema` | `packages/core/src/schema.ts` |
+| `entityRecordSchema` | `packages/core/src/schema.ts` |
+| `resourceSchema` (discriminated union) | `packages/core/src/schema.ts` |
+| `recordsFileSchema` (one file = one record) | `packages/core/src/schema.ts` |
 
 ### Project-specific fields
 

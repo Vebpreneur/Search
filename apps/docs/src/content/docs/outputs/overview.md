@@ -32,7 +32,7 @@ working set; they are yours to change or delete.
 | Stack | `/stacks/<name>/` | records with that stack |
 | License | `/licenses/<name>/` | records with that license |
 | About | `/about/` | your Astro page, reading a content page |
-| Contributors | `/contributors/` | `data/generated/contributors.json` |
+| Contributors | `/contributors/` | `data/generated/contributors.json`, plus records' `submittedBy` ("Added by the community") |
 | Submit | `/submit/` | your Astro page |
 | 404 | `/404/` | your Astro page |
 
@@ -59,6 +59,7 @@ These are written by the build and served at the URL that matches their path.
 | `llms-full.txt` | `/llms-full.txt` | AI assistants — per-record detail |
 | `robots.txt` | `/robots.txt` | Crawlers |
 | `og-image.svg` | `/og-image.svg` | Fallback social image |
+| `badges/featured.svg`, `badges/featured-dark.svg` | `/badges/…` | "Featured on <site>" README badge for listed projects — see [Attribution and credit](/customize/attribution/) |
 | `og/home.png`, `og/default.png` | `/og/…` | Satori-rendered social cards |
 | `og/records/<slug>.png` | `/og/records/…` | Per-record cards |
 | `og/collections/<slug>.png`, `og/categories/<id>.png`, `og/stacks/<id>.png`, `og/licenses/<id>.png` | `/og/…` | Per-page cards |
@@ -115,18 +116,18 @@ See [Programmatic API](/reference/api-core/) for the signatures.
 | `data/generated/records*.json`, `site-config.json`, `og-manifest.json` | Every `grove check` and every Astro build — the integration runs `prepareDirectory()` on `astro:config:setup` |
 | `public/sitemap.xml`, `public/llms.txt`, `public/llms-full.txt` | Same |
 | `public/og/**` | Same. Satori-rendered; a render failure logs and falls back to `/og-image.svg` rather than failing the build |
-| `public/robots.txt`, `public/og-image.svg` | Same, but only while Grove still owns them — see below |
+| `public/robots.txt`, `public/og-image.svg`, `public/badges/featured*.svg` | Same, but only while Grove still owns them — see below |
 | `public/icons/**` | Every Astro build, or explicitly with `grove icons sync` (`--check` reports drift, `--force` overwrites local edits) |
 | `data/generated/contributors.json`, `repo-stats.json` | `grove sync contributors` |
 | `data/generated/cleanup-report.json` | `grove cleanup` |
 | `README.md` sentinel block | `grove readme generate` |
 
-## Ownership: how `robots.txt` and `og-image.svg` stop regenerating
+## Ownership: how `robots.txt`, `og-image.svg` and the badges stop regenerating
 
-Both files are written with a marker on the first line:
+These files are written with a marker on the first line:
 
 - `robots.txt` — `# grove-generated: edit this file to take ownership`
-- `og-image.svg` — `<!-- grove-generated: edit this file to take ownership -->`
+- `og-image.svg`, `badges/featured.svg`, `badges/featured-dark.svg` — `<!-- grove-generated: edit this file to take ownership -->`
 
 Before each rewrite, Grove reads the existing file and checks for its marker.
 If the marker is gone, it leaves the file alone permanently. Deleting the

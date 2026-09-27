@@ -19,16 +19,18 @@ Create `src/pages/<page>.astro`:
 
 ```astro
 ---
+import siteConfig from "@grove/generated/site-config.json";
 import BaseLayout from "../layouts/base-layout.astro";
 import { records } from "@grove-dev/astro/server";
 
+// Newest additions first, from each record's `addedAt`.
 const recent = records
-  .filter(r => r.github?.sync?.syncedAt)
-  .sort((a, b) => (b.github.sync.syncedAt > a.github.sync.syncedAt ? 1 : -1))
+  .filter((r) => r.addedAt)
+  .sort((a, b) => String(b.addedAt).localeCompare(String(a.addedAt)))
   .slice(0, 10);
 ---
 
-<BaseLayout title="Changelog" description="Recent updates">
+<BaseLayout title="Changelog" description="Recently added" site={siteConfig}>
   <h1>Changelog</h1>
   <ul>
     {recent.map(r => (
@@ -93,7 +95,7 @@ The Markdown file is rendered to HTML at build time and embedded in the page.
 
 :::caution[Frontmatter is not passed through]
 `getPageContentHtml(page)` returns `string | null` — the rendered HTML, or `null` when
-no matching file exists (`packages/astro/src/server/directory.ts:751`). It does **not**
+no matching file exists (`getPageContentHtml` in `packages/astro/src/server/directory.ts`). It does **not**
 return an object, and it does not hand you the frontmatter: the frontmatter block is
 stripped and discarded during rendering. Set the page title and description on
 `BaseLayout` yourself, as the example above does.

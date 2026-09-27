@@ -5,7 +5,7 @@ description: Programmatic access to @grove-dev/core — config loading, generati
 
 `@grove-dev/core` is the framework-free engine. Every public function is exported for programmatic use — that's the surface the CLI and the Astro integration depend on, and the surface you can depend on from your own scripts.
 
-This page covers the shape of that API and the most common recipes. The canonical list of every export lives in [`apps/docs/docs-audit/package-api-inventory.md`](https://github.com/tortuvshin/grove/blob/main/apps/docs/docs-audit/package-api-inventory.md) and is verified by `scripts/check-docs-contract.mjs`.
+This page covers the shape of that API and the most common recipes. The public surface is exactly what `packages/core/src/index.ts` re-exports; `scripts/check-docs-contract.mjs` fails the docs build when an export is not documented on some page.
 
 ## Subpath layout
 
@@ -51,7 +51,7 @@ import { generate } from "@grove-dev/core";
 const result = await generate("/path/to/space");
 ```
 
-`generate(cwd = process.cwd(), config?)` writes `records.full.json`, `records.index.json`, `records.json`, and `site-config.json` under `data/generated/` (`packages/core/src/build-data.ts:166`). The `result` object is the `GenerateResult` type with `totalRecords`, `byKind`, `byStack`, and the resolved payloads.
+`generate(cwd = process.cwd(), config?)` writes `records.full.json`, `records.index.json`, `records.json`, and `site-config.json` under `data/generated/` (`packages/core/src/build-data.ts`). The `result` object is the `GenerateResult` type: `totalRecords`, `visibleRecords`, the three output paths (`fullPath`, `indexPath`, `aliasPath`) and `errors`.
 
 ## Records
 
@@ -582,7 +582,7 @@ const result = await syncIconAssets(sourceDir, targetDir, {
 
 ## Reference schema exports
 
-All exports are listed in [`apps/docs/docs-audit/package-api-inventory.md`](https://github.com/tortuvshin/grove/blob/main/apps/docs/docs-audit/package-api-inventory.md). New exports can land in a minor version; existing ones are stable.
+Every Zod schema the records and config are validated with is exported (`projectRecordSchema`, `resourceSchema`, `groveConfigSchema`, `collectionDefinitionSchema`, …). New exports can land in a minor version; existing ones are covered by the [stability policy](/project/roadmap/#stability).
 
 ## Directory filter keys (single source of truth)
 
@@ -622,7 +622,7 @@ Used by `grove sync github` with `integrations.github.candidates` and by `grove 
 
 ## YAML string helpers (submit form, future CLI emit)
 
-Pure, dependency-free helpers for the submit form's YAML preview. Used by `SubmissionClient.astro` (now in the registry scaffold at `components/grove/submission-client.astro`).
+Pure, dependency-free helpers for emitting a record draft. The registry's `submission-client.astro` runs in the browser through `define:vars`, which only carries JSON, so it writes the same rules out inline; these exports are the tested reference for them and for your own scripts.
 
 - `recordSlugify(value)` — coerce any input to a URL-safe hyphen slug.
 - `parseGithubRepo(value)` — parse a GitHub URL into `{ owner, repo }` or return null.
@@ -631,7 +631,26 @@ Pure, dependency-free helpers for the submit form's YAML preview. Used by `Submi
 
 ## Taxonomy inference
 
-- `inferStackFromTopics({ language, topics })` — suggest a stack id (e.g. `flutter`, `ios`, `android`) from a repository's GitHub metadata. Used by the submit form to pre-fill the primary-stack field.
+- `inferStackFromTopics({ language, topics })` — suggest a stack id (e.g. `flutter`, `ios`, `android`) from a repository's GitHub metadata. The submit form applies the same rules inline to pre-fill the primary-stack field.
+
+## `@grove-dev/astro/server` view models
+
+Page code builds its props from these; each takes `siteConfig` and reads the generated data. Beyond the page models (`getHomePageModel`, `getRecordDetailModel`, `getCollectionPageModel`, `getContributorsPageModel`, …), two helpers back the 1.0 UI:
+
+```ts
+import { getCollectionTiles, getSubmissionsBySubmitter } from "@grove-dev/astro/server";
+
+// One card per collection: title, takeaway, editorial (curator notes?), count and
+// countLabel, faces (entry avatars), examples (first entries with note / stars),
+// reviewedAt, isEmpty.
+const tiles = getCollectionTiles(collections, entries, siteConfig);
+
+// Records grouped by `submittedBy`, most first:
+// [{ id: "octocat", login: "octocat", items: [{ slug, name, url }] }]
+const people = getSubmissionsBySubmitter(siteConfig);
+```
+
+`entries` come from `recordsToCollectionEntries(records, siteConfig)`; each entry carries `avatarUrl` (the record's `logoUrl`, else the GitHub owner's avatar) and `tags`.
 
 ## See also
 

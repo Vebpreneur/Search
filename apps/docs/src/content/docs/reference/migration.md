@@ -103,8 +103,10 @@ None.
 
 ## What this page does not promise
 
-- **An automatic `grove migrate` command.** There isn't one. Schema-breaking changes are called out
-  here and in the changelog; you apply them by hand.
+- **A general `grove migrate`.** Two data migrations exist — `grove migrate github-cache` (inline
+  `github`/`health` blocks into the sync cache) and `grove migrate markdown-records` (YAML records
+  plus notes files into one Markdown file each); see the [CLI reference](/reference/cli/). Other
+  breaking changes are called out here and in the changelog, and you apply them by hand.
 - **Future releases.** Once a release ships, its breaking changes are appended here. Speculative
   changes do not appear.
 

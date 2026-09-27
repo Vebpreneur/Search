@@ -32,7 +32,7 @@ from Grove's [shadcn registry](/concepts/registry/).
 
 | Option | Description | Default |
 |---|---|---|
-| `--no-install` | Skip Grove's own `pnpm install` after scaffolding. The shadcn step still installs the scaffold's dependencies. | install runs |
+| `--no-install` | Skip the final `<pm> install` after scaffolding (the package manager you ran `init` with is detected). The shadcn step still installs the scaffold's dependencies. | install runs |
 | `--no-git` | Skip `git init` after scaffolding | git init runs |
 
 **Reads:** the copy of `@grove/default` bundled with the CLI itself
@@ -42,13 +42,16 @@ request, so `init` works offline.
 **Writes:**
 
 - `<directory>/package.json` (scripts `dev`, `build`, `check`;
-  `@grove-dev/{core,astro,cli,registry}` pinned to the CLI version)
+  `@grove-dev/{core,astro,cli}` pinned to the CLI version — the registry
+  is not a dependency, its files are copied into `src/`)
 - `<directory>/tsconfig.json` (Astro base config with the `@/*` path alias)
 - `<directory>/components.json`
   (`"registries": { "@grove": "https://withgrove.dev/r/{name}.json" }`)
 - `<directory>/grove.config.ts`
 - `<directory>/astro.config.mjs`
 - `<directory>/data/records/` (empty)
+- `<directory>/pnpm-workspace.yaml` — pnpm projects only; approves the
+  dependency build scripts pnpm would otherwise refuse
 - `<directory>/src/**` — every file of `@grove/default`: components,
   layouts, `lib/`, `styles/system.css`, and all page routes (home,
   browse, record detail, taxonomy, collections, submit, about,
@@ -60,12 +63,17 @@ request, so `init` works offline.
 **Behavior:**
 
 1. Writes the config files above.
-2. Runs `pnpm dlx shadcn@4.19.0 add <bundled default.json> --yes`,
-   which lands the scaffold in `src/` and installs its npm
-   dependencies (astro, tailwindcss, `@tailwindcss/vite`,
-   `@astrojs/check`).
+2. Runs `<pm> dlx shadcn@4.21.0 add <bundled default.json> --yes` with
+   the detected package manager, which lands the scaffold in `src/` and
+   installs its npm dependencies (astro, tailwindcss,
+   `@tailwindcss/vite`, `@astrojs/check`). If shadcn fails, the bundled
+   item is written in-process instead, so the result never depends on
+   the third-party CLI.
 3. Adds the `@grove-dev/*` packages and writes the lock.
-4. Runs `pnpm install` and `git init` unless disabled.
+4. Runs `<pm> install` and `git init` unless disabled.
+
+Steps 1–3 are transactional: if any of them fails, every file `init`
+wrote is removed again, so the retry is simply `grove init`.
 
 It does **not** scaffold `content/`, `public/`, `data/taxonomy/`,
 `data/collections/`, or `.github/` — see the
@@ -179,8 +187,9 @@ into `data/records/*.yml`.
 
 **Writes:**
 
-- One `<slug>.yml` per detected record in `data/records/` (or
-  whatever `paths.recordsDir` is set to).
+- One `<slug>.yml` per detected record in `<cwd>/data/records/`.
+  `paths.recordsDir` is not consulted — move the files if your records
+  live elsewhere.
 - Records are written with `source: { type: "import" }` so you can
   filter imported vs. hand-authored records later.
 
@@ -193,8 +202,8 @@ grove import ./inbox/README.md
 
 **Behavior:**
 
-- Each record gets `name`, `description`, `category`, `tags`, and
-  `links` from the source. `stack`, `stacks`, `platforms`, and
+- Each record gets `name`, `description`, `category` and `links` from
+  the source, and an empty `tags: []`. `stack`, `stacks`, `platforms`, and
   `projectType` are left empty for curators to fill in.
 
 **Common errors:**
@@ -404,6 +413,36 @@ nothing new.
 [migrate markdown-records] data/records/immich.yml → content/records/immich.md (dropped content, slug, kind)
 [migrate markdown-records] kept data/records/utm.yml: content/records/utm.md already exists and is not this record's body
 [migrate markdown-records] moved 98 record(s) to Markdown; 4 left as YAML.
+```
+
+## `grove health`
+
+Check the health of every repository linked from a README — an awesome
+list or any Markdown list — without a Grove project.
+
+**Syntax:** `grove health [readme] [--json]`
+
+| Argument / option | Description | Default |
+|---|---|---|
+| `[readme]` | README path | auto-detects `README.md` in the current directory |
+| `--json` | Machine-readable report on stdout | human summary |
+
+**Reads:** the README, then the GitHub API for each linked repository
+(`GH_TOKEN` / `GITHUB_TOKEN` raise the rate limit).
+
+**Writes:** nothing.
+
+**Output:** per entry, whether the repository resolved, is archived,
+moved, unavailable, duplicated or likely stale, and a summary with the
+healthy share. It runs
+[`runReadmeHealthCheck`](/reference/api-core/#readme-health-check) from
+`@grove-dev/core`. Use it on a list before `grove import`.
+
+**Example:**
+
+```bash
+grove health ./awesome-go/README.md
+grove health --json > health.json
 ```
 
 ## `grove sync contributors`

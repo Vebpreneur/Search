@@ -14,7 +14,7 @@ about those — the per-page SEO and social tags live in
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="generator" content="Astro v5.x" />
+    <meta name="generator" content="Astro v7.x.y" /> <!-- Astro.generator -->
     <meta name="theme-color" content="#0a0a0c" media="(prefers-color-scheme: dark)" />
     <meta name="theme-color" content="#fafafa" media="(prefers-color-scheme: light)" />
     <link rel="icon" href="…" />
@@ -74,20 +74,21 @@ URL with no configuration.
 
 ## Files Grove writes but hands over
 
-`public/robots.txt` and `public/og-image.svg` are generated with an
-ownership marker on the first line:
+`public/robots.txt`, `public/og-image.svg` and the two README badges are
+generated with an ownership marker on the first line:
 
 | File | Marker |
 |---|---|
 | `public/robots.txt` | `# grove-generated: edit this file to take ownership` |
 | `public/og-image.svg` | `<!-- grove-generated: edit this file to take ownership -->` |
+| `public/badges/featured.svg`, `featured-dark.svg` | same as `og-image.svg` |
 
 Grove reads the existing file before each rewrite. Once the marker is gone,
 it never touches the file again. Delete the whole file and rebuild to get a
 fresh generated one back.
 
 Note the marker syntax differs by file type — `#` for `robots.txt`, an XML
-comment for the SVG — because each has to be a valid comment in its own
+comment for the SVGs — because each has to be a valid comment in its own
 format.
 
 ## Related
