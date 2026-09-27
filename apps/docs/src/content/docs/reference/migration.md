@@ -30,7 +30,8 @@ edits:
 
 Also new in 1.0 and worth adopting (not breaking): `outbound` referral
 links, `submittedBy` on records, `site.press`, nav menus (`children`,
-`menu: "collections"`) and the generated README badge — see the
+`menu: "collections"`) and the generated README badge — see
+[Attribution and credit](/customize/attribution/) and the
 [config reference](/reference/config/). Registry 1.5.0 carries the matching
 components; run `grove update` to take them where you have not edited the
 files.

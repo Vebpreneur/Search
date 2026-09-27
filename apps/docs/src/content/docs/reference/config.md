@@ -270,6 +270,8 @@ tagged (see `DEFAULT_REF_SKIP_HOSTS`), and an existing `ref` or
 | `ref` | `string \| false` | host of `site.url` | The `ref` value. `false` turns tagging off. |
 | `skipHosts` | `string[]` | `[]` | Extra hosts (and their subdomains) to leave untouched. |
 
+See [Attribution and credit](/customize/attribution/) for the badge, submitter credit and `site.press` that go with it.
+
 ### `browse.facets`
 
 **Type:** `Array<string>`

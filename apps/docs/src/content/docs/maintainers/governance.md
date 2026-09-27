@@ -156,10 +156,10 @@ A few governance-adjacent features ship with the framework:
   editorial overrides. It is the natural artifact to share when a
   reader asks "why is this record hidden?".
 - **The submission issue template**
-  (`.github/ISSUE_TEMPLATE/record_submission.md`) ships with the
-  scaffold. It is a plain Markdown template that applies the
-  `submission` label, so incoming suggestions land in one filterable
-  bucket.
+  (`.github/ISSUE_TEMPLATE/record_submission.md`) is in the example
+  site in the Grove repo — `grove init` writes no `.github/`, so copy it
+  in. It is a plain Markdown template that applies the `submission`
+  label, so incoming suggestions land in one filterable bucket.
 
 That's it. The framework does not host discussion threads, send
 notifications, or do any community-management work.

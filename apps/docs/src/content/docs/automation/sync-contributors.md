@@ -86,12 +86,16 @@ contributors: {
 
 `contributors.showContributionCount` is a top-level config field (`groveConfigSchema.contributors`, not nested under `integrations`). It's read by `getContributorsPageModel` in `packages/astro/src/server/models.ts` and defaults to `true` — set it to `false` for a quieter contributor card that hides the per-user count.
 
+## Submitters are separate
+
+The contributor grid counts commits to your repository. People who added entries through `/submit/` are credited separately, from each record's `submittedBy` field: `/contributors/` shows them in an **Added by the community** section built by `getSubmissionsBySubmitter`. Nothing needs syncing for that — it comes from the records on every build. See [Attribution and credit](/customize/attribution/#credit-for-submitters).
+
 ## How often
 
 `apps/example/.github/workflows/sync-contributors.yml` runs on a weekly cron (`0 4 * * 0`, Sunday 04:00 UTC) plus `workflow_dispatch`. Unlike the GitHub-metadata sync, this workflow commits the generated files directly with `stefanzweifel/git-auto-commit-action` — it does not open a pull request.
 
 ## See also
 
-- [Sync GitHub metadata](/automation/sync-github/) — the per-record sync for stars/language/topics on `data/records/*.yml`
+- [Sync GitHub metadata](/automation/sync-github/) — the per-record sync for stars/language/topics into `data/cache/github/`
 - [Generated data files](/outputs/generated-data/) — the full shape of everything under `data/generated/`
 - [Reference: programmatic API](/reference/api-core/) — `syncContributors`'s options and return type

@@ -93,7 +93,7 @@ into every generated output. Must equal the filename.
 The GitHub login of the person who submitted the record (a leading `@`
 is stripped). The record page shows "Submitted by @login" and the
 contributors page groups records by it (`getSubmissionsBySubmitter`).
-The submit form writes it when the contributor fills in their username.
+The submit form writes it when the contributor fills in their username. See [Attribution and credit](/customize/attribution/#credit-for-submitters).
 
 ```yaml
 submittedBy: octocat

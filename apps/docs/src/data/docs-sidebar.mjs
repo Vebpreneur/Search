@@ -98,6 +98,7 @@ export const SIDEBAR = [
       { label: 'Theme tokens', slug: 'customize/theme' },
       { label: 'Branding', slug: 'customize/branding' },
       { label: 'Components', slug: 'customize/components' },
+      { label: 'Attribution and credit', slug: 'customize/attribution' },
       { label: 'Custom pages', slug: 'customize/pages' },
       { label: 'Template customization', slug: 'customize/template-customization' },
       { label: 'Assets', slug: 'customize/assets' },
