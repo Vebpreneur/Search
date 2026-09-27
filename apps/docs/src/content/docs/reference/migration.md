@@ -14,6 +14,27 @@ what's new in each release. The roadmap is at [Project > Roadmap](/project/roadm
 
 ## Breaking changes
 
+### 1.0.0 — legacy fields removed
+
+1.0 removes the compatibility shims that 0.x carried. Every change is a
+rename to something that already existed, so a site on 0.19 moves in a few
+edits:
+
+| Removed | Use instead |
+|---|---|
+| `CollectionEntry.license` (single SPDX id) | `entry.licenses` — the curated ids, else the GitHub-detected one. In a template: `entry.licenses?.[0]`. |
+| `CollectionPageModel.jsonLd` | `model.seo.jsonLd` (it already carried the same nodes). |
+| `audit.pages[].sample` in `grove.config.ts` | Delete the key; it never did anything. |
+| Content paths resolved under `apps/example/` | Put `content:` paths relative to the project root (`./content/...`). |
+| `Icon`'s `mode` prop and the `IconMode` type (registry) | Drop the prop; it was a no-op since theme variants stopped being files. |
+
+Also new in 1.0 and worth adopting (not breaking): `outbound` referral
+links, `submittedBy` on records, `site.press`, nav menus (`children`,
+`menu: "collections"`) and the generated README badge — see the
+[config reference](/reference/config/). Registry 1.5.0 carries the matching
+components; run `grove update` to take them where you have not edited the
+files.
+
 ### 0.8.0 — `@grove-dev/astro` no longer exports UI
 
 This is the largest breaking change Grove has shipped. `./components/*`,
@@ -77,9 +98,7 @@ locally modified and leaves it alone, every run, until you merge it yourself.
 
 ## Active deprecations
 
-- **`Icon`'s `mode` prop.** Theme variants are no longer file-based (icons resolve `currentColor` at
-  render time), so `mode` is now a no-op — kept for one minor release so `mode="auto"` in existing
-  code doesn't become a type error. Drop the prop; it has no effect.
+None.
 
 ## What this page does not promise
 

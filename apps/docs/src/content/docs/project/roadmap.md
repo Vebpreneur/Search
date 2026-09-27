@@ -91,8 +91,9 @@ Rewritten on every build (`grove check`, `astro dev`, `astro build`):
   `site-config.json`, `og-manifest.json`
 - `public/sitemap.xml`, `public/llms.txt`, `public/llms-full.txt`
 - `public/og/**` — per-page PNG social cards
-- `public/robots.txt`, `public/og-image.svg` — only while Grove still owns
-  them; editing away the marker line takes ownership permanently
+- `public/robots.txt`, `public/og-image.svg`, `public/badges/featured.svg`
+  and `featured-dark.svg` — only while Grove still owns them; editing away
+  the marker line takes ownership permanently
 
 Written only by their own command: `cleanup-report.json` (`grove cleanup`),
 `contributors.json` and `repo-stats.json` (`grove sync contributors`), and
@@ -102,8 +103,10 @@ the `README.md` sentinel block (`grove readme generate`).
 
 ### Schema constraints
 
-- One YAML file is one record. The filename minus `.yml` is the canonical
-  slug; a `slug:` field that disagrees is a warning and the filename wins.
+- One file is one record: `data/records/<slug>.yml`, or
+  `content/records/<slug>.md` with the fields as frontmatter and the notes
+  as the body. The filename is the canonical slug; a `slug:` field that
+  disagrees is a warning and the filename wins.
 - Every record is `kind: project`. `resourceRecordSchema` and
   `entityRecordSchema` exist in the schema file but have no scaffold, no
   routes, and no authoring path — treat them as schema-only.
@@ -111,22 +114,42 @@ the `README.md` sentinel block (`grove readme generate`).
   `packages/core/src/index.ts` re-exports. Anything else is internal and
   may change without notice.
 
-## In flight
+## Stability
 
-### Audit findings from the post-launch review
+From 1.0.0 the four npm packages follow [semantic versioning](https://semver.org/).
+A breaking change to anything below ships only in a major version; a
+minor version adds, a patch fixes.
 
-The internal audit catalogue carries verified items forward, enumerated
-rather than dropped, and each release closes as many as fit. The two
-supply-chain items are now closed:
+**Covered by semver**
 
-- **OIDC trusted publishing.** Releases run from
-  `.github/workflows/release.yml`; no npm token exists in the repository,
-  and every version from 0.10.0 onward carries a provenance attestation.
-  See [Release process](/maintainers/release-process/).
-- **Third-party action SHA pinning.** Every `uses:` in every workflow is
-  pinned to a commit SHA with the version as a trailing comment. Dependabot
-  tracks `github-actions` and updates the pins, so the version comments stay
-  accurate without hand maintenance.
+- The exports of `@grove-dev/core`, `@grove-dev/astro`,
+  `@grove-dev/astro/server` and `@grove-dev/starlight` — what each
+  package's entry file re-exports, with the types and view-model shapes it
+  returns.
+- `grove.config.ts` as documented in the [config reference](/reference/config/),
+  the [record schema](/reference/record-schema/) and the collection file
+  format. A config or record that validates on 1.x keeps validating on 1.x.
+- The `grove` commands, flags and exit codes in the
+  [CLI reference](/reference/cli/).
+- The documented fields of the generated files: `records*.json`,
+  `site-config.json`, `llms.txt`, `llms-full.txt`, `sitemap.xml`.
+
+**Not covered**
+
+- Registry components and pages. They are copied into your project and
+  are yours; a new registry release never changes them behind your back.
+  `grove update` offers upstream changes and keeps every file you edited.
+  The registry has its own version line (`@grove-dev/registry`,
+  1.5.0 at Grove 1.0).
+- Anything not re-exported from a package entry file, undocumented fields
+  in generated JSON, and the exact markup and class names of the default
+  scaffold.
+
+**Deprecation.** A feature to be removed is marked deprecated in a minor
+release — in the docs, in its type, and with a `grove check` warning where
+config is involved — and removed no earlier than the next major.
+
+**Runtime.** Node.js 22.12 or newer; Astro 6 or 7.
 
 ## Later — directional
 

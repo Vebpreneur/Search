@@ -1,6 +1,6 @@
 {
   "scaffold": "@grove/default",
-  "scaffoldVersion": "1.4.0",
+  "scaffoldVersion": "1.5.0",
   "installedAt": "2026-09-27",
   "fileCount": 81,
   "files": [
@@ -145,8 +145,8 @@
     {
       "target": "src/components/grove/icon.astro",
       "source": "default/components/grove/icon.astro",
-      "hash": "sha256-ebe66de55d1d805ac42577da5d0170438e7570735690970b0ab1b63f2b56027e",
-      "bytes": 6765
+      "hash": "sha256-f3b019425c7f13e89414d3de35b5e823a289754515fe057be759e37272c7e150",
+      "bytes": 6456
     },
     {
       "target": "src/components/grove/index-row.astro",
