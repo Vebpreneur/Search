@@ -2,8 +2,9 @@
 // VitePress-style feature grid: Lucide icon tile, short title, one
 // plain-language sentence. Every claim maps to shipped behavior (schema
 // validation, GitHub sync, classifyHealth(), collections/lenses in
-// @grove-dev/core, generated README/sitemap/llms outputs, replaceable
-// Astro pages).
+// @grove-dev/core, generated README/sitemap/llms outputs, outbound ref
+// links + README badge + submittedBy credit, replaceable Astro pages,
+// the 1.0 stability policy).
 //
 // The copy is deliberately written for structured knowledge in general, not
 // for the open-source directory Grove grew out of: naming that project's
@@ -14,7 +15,7 @@ const features = [
   {
     icon: 'zap',
     title: 'Ready in a minute',
-    body: 'One command scaffolds a complete, deployable site — records, pages, search, and build workflows included.',
+    body: 'One command scaffolds a complete, deployable site — pages, search, collections and a guided submit form.',
   },
   {
     icon: 'search',
@@ -33,13 +34,13 @@ const features = [
   },
   {
     icon: 'refresh-cw',
-    title: 'Self-updating facts',
-    body: 'Fields sourced from somewhere else refresh on a schedule — as changes you review, never silent edits.',
+    title: 'Facts that stay fresh',
+    body: 'Outside facts refresh on a schedule as changes you review, and stale entries surface in a queue — keep, hide, or remove.',
   },
   {
-    icon: 'leaf',
-    title: 'Nothing rots quietly',
-    body: 'Entries that have gone stale surface in a review queue. Keep, hide, or remove — the reason stays in the repo.',
+    icon: 'award',
+    title: 'Credit that travels',
+    body: 'Listed projects see your site in their analytics and get a README badge; people who submit entries are credited on the page.',
   },
   {
     icon: 'share-2',
@@ -48,8 +49,8 @@ const features = [
   },
   {
     icon: 'puzzle',
-    title: 'Yours to own',
-    body: 'Plain files in your Git repo, pages in your code. No database, no CMS, no lock-in — MIT licensed.',
+    title: 'Yours to own, stable to build on',
+    body: 'Plain files in your Git repo, pages in your code, a semver API since 1.0. No database, no CMS, no lock-in — MIT licensed.',
   },
 ];
 
@@ -67,6 +68,8 @@ const ICONS = {
   leaf: '<path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19.2 2.96c1.4 9.3 1.4 13.04-3 17.07-2.32 2.13-5.5 2.6-8.2 2.6"/><path d="M2 21c0-3 1.85-5.36 5.08-6"/>',
   'share-2':
     '<circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" x2="15.42" y1="13.51" y2="17.49"/><line x1="15.41" x2="8.59" y1="6.51" y2="10.49"/>',
+  award:
+    '<path d="m15.477 12.89 1.515 8.526a.5.5 0 0 1-.81.47l-3.58-2.687a1 1 0 0 0-1.197 0l-3.586 2.686a.5.5 0 0 1-.81-.469l1.514-8.526"/><circle cx="12" cy="8" r="6"/>',
   puzzle:
     '<path d="M19.439 7.85c-.049.322.059.648.289.878l1.568 1.568c.47.47.706 1.087.706 1.704s-.235 1.233-.706 1.704l-1.611 1.611a.98.98 0 0 1-.837.276c-.47-.07-.802-.48-.968-.925a2.501 2.501 0 1 0-3.214 3.214c.446.166.855.497.925.968a.979.979 0 0 1-.276.837l-1.61 1.61a2.404 2.404 0 0 1-1.705.707 2.402 2.402 0 0 1-1.704-.706l-1.568-1.568a1.026 1.026 0 0 0-.877-.29c-.493.074-.84.504-1.02.968a2.5 2.5 0 1 1-3.237-3.237c.464-.18.894-.527.967-1.02a1.026 1.026 0 0 0-.289-.877l-1.568-1.568A2.402 2.402 0 0 1 1.998 12c0-.617.236-1.234.706-1.704L4.23 8.77c.24-.24.581-.353.917-.303.515.077.877.528 1.073 1.01a2.5 2.5 0 1 0 3.259-3.259c-.482-.196-.933-.558-1.01-1.073-.05-.336.062-.676.303-.917l1.525-1.525A2.402 2.402 0 0 1 12 1.998c.617 0 1.234.236 1.704.706l1.568 1.568c.23.23.556.338.877.29.493-.074.84-.504 1.02-.968a2.5 2.5 0 1 1 3.237 3.237c-.464.18-.894-.527-.967 1.02Z"/>',
 };

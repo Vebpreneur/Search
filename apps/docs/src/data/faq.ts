@@ -22,11 +22,15 @@ export const FAQ_ITEMS: ReadonlyArray<FaqItem> = [
   },
   {
     q: 'Is Grove a CMS?',
-    a: 'No. Grove is a build-time framework. Your content lives as YAML files in your repository, not in a database. There is no admin UI to maintain — editors open pull requests like any other code change, and the framework generates the static site on every merge.',
+    a: 'No. Grove is a build-time framework. Your content lives as YAML or Markdown files in your repository, not in a database. There is no admin UI to maintain — editors open pull requests like any other code change, and the framework generates the static site on every merge.',
   },
   {
     q: 'Does it work without Astro?',
-    a: 'Astro is the only renderer that exists today. The core engine is framework-agnostic — typed schema, source sync, importers, sitemap, llms.txt — so a renderer for another framework is possible, but none is scaffolded: `@grove-dev/svelte` and `@grove-dev/nextjs` have never been published. The [roadmap](/roadmap/) tracks where that stands.',
+    a: 'Astro is the only renderer that exists today. The core engine is framework-agnostic — typed schema, source sync, importers, sitemap, llms.txt — so a renderer for another framework is possible, but none is scaffolded: `@grove-dev/svelte` and `@grove-dev/nextjs` have never been published. The [roadmap](/project/roadmap/) tracks where that stands.',
+  },
+  {
+    q: 'Is Grove stable?',
+    a: 'Yes. From 1.0 the four npm packages follow semantic versioning: the package exports, grove.config.ts, the record and collection schemas, the CLI and the documented generated files only break in a major version, after a deprecation in a minor. The UI files grove init copies into your project are yours — grove update offers upstream changes and never overwrites a file you edited. The [stability policy](/project/roadmap/#stability) has the details.',
   },
   {
     q: 'How is this different from a Markdown list in a README?',
@@ -38,7 +42,7 @@ export const FAQ_ITEMS: ReadonlyArray<FaqItem> = [
   },
   {
     q: 'What happens when an entry goes stale?',
-    a: "grove sync github reads the upstream state — including whether a repository was archived — and writes it into the record. The Astro template renders the status in the activity pill and a row in the sidebar, and the entry stays visible by default. Removing or hiding it is a curator's call, recorded in decisions.yml.",
+    a: "grove sync github reads the upstream state — including whether a repository was archived — and writes it to the sync cache, never into the record file. The Astro template renders the status in the activity pill and a row in the sidebar, and the entry stays visible by default. Removing or hiding it is a curator's call, recorded in decisions.yml.",
   },
   {
     q: 'Can I import a list I already maintain?',

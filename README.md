@@ -17,7 +17,7 @@ CMS, and no runtime server required.
 
 [Website](https://withgrove.dev/) ·
 [Documentation](https://withgrove.dev/introduction/) ·
-[Quick start](https://withgrove.dev/getting-started/create-a-space/) ·
+[Quick start](https://withgrove.dev/getting-started/scaffold/) ·
 [Live example](https://openappscout.com/) ·
 [npm](https://www.npmjs.com/package/@grove-dev/cli)
 
@@ -53,13 +53,19 @@ editorial judgment away from maintainers.
 - **Consumer-owned presentation.** The generated project owns its Astro pages
   and product copy. Grove supplies schemas, domain logic, data adapters, and
   reusable UI without silently replacing local customization.
+- **Credit that travels.** Links to listed projects keep the referrer and
+  carry `ref=<your host>`, maintainers get a "Featured on" README badge, and
+  the people who submit entries are credited on the pages they added.
 - **Static-first deployment.** The result is plain HTML, JSON, and text files
   that can ship to Cloudflare, Vercel, Netlify, GitHub Pages, or any static
   host.
+- **Stable since 1.0.** The packages follow semantic versioning: config,
+  schemas, CLI and exports only break in a major, after a deprecation — see
+  the [stability policy](https://withgrove.dev/project/roadmap/#stability).
 
 ## Quick start
 
-Requirements: Node.js `>=22.12.0` and pnpm `10.34.5`.
+Requirements: Node.js `>=22.12.0` and a package manager (pnpm, npm, yarn or bun — `grove init` detects which).
 
 ```bash
 pnpm dlx @grove-dev/cli@latest init my-space
@@ -71,7 +77,7 @@ The scaffold is a real, complete Grove site — not a separate demo template.
 Start by editing these three surfaces:
 
 ```text
-data/records/       one YAML file per record
+data/records/       one YAML file per record (or content/records/*.md — frontmatter + notes)
 grove.config.ts     identity, routes, facets, theme, integrations, audit pages
 src/pages/          site-owned routes and page composition
 ```
@@ -94,10 +100,11 @@ promotion, import, icon synchronization, and Lighthouse audit commands.
 
 ## A real operating model
 
-[Open Apps](https://openappscout.com/) is the production reference that
-shaped Grove: file-backed records, searchable views, curated collections,
-repository refreshes, health signals, detail pages, contributor data, a
-sitemap, and AI-readable outputs. Grove turns that proven operating model into
+[Open App Scout](https://openappscout.com/) is the production reference that
+shaped Grove — featured in [Astro's August 2026 roundup](https://astro.build/blog/whats-new-august-2026/):
+100+ apps as Markdown records, searchable views, editor's picks and live
+collections, repository refreshes, health signals, credited community
+submissions, a sitemap, and AI-readable outputs. Grove turns that proven operating model into
 reusable packages and a project scaffold for other kinds of structured
 knowledge.
 
@@ -107,20 +114,20 @@ knowledge.
       <a href="https://openappscout.com/">
         <img
           src=".github/assets/open-apps-home.png"
-          alt="Open Apps home page with search, activity signals, and curated applications"
+          alt="Open App Scout home page with search, activity signals, and curated applications"
           width="420"
         />
       </a>
       <br />
       <a href="https://openappscout.com/"><strong>Home</strong></a>
       <br />
-      <sub>Search, live ecosystem stats, and actively developed applications.</sub>
+      <sub>Search, the Astro feature, contributors and live ecosystem stats.</sub>
     </td>
     <td align="center" valign="top" width="420">
       <a href="https://openappscout.com/apps/">
         <img
           src=".github/assets/open-apps-browse.png"
-          alt="Open Apps browse page with search, filters, sorting, and application cards"
+          alt="Open App Scout browse page with search, filters, sorting, and application cards"
           width="420"
         />
       </a>
@@ -130,30 +137,30 @@ knowledge.
       <sub>Search, filtering, sorting, and health-aware application cards.</sub>
     </td>
     <td align="center" valign="top" width="420">
-      <a href="https://openappscout.com/apps/cake_wallet/">
+      <a href="https://openappscout.com/apps/anarlog/">
         <img
           src=".github/assets/open-apps-detail.png"
-          alt="Open Apps application detail page with project context and structured editorial content"
+          alt="Open App Scout application detail page with project context and structured editorial content"
           width="420"
         />
       </a>
       <br />
-      <a href="https://openappscout.com/apps/cake_wallet/"><strong>Detail</strong></a>
+      <a href="https://openappscout.com/apps/anarlog/"><strong>Detail</strong></a>
       <br />
-      <sub>Project context, source-derived facts, and structured editorial content.</sub>
+      <sub>Install channels, a written verdict, and source-derived facts.</sub>
     </td>
     <td align="center" valign="top" width="420">
       <a href="https://openappscout.com/collections/">
         <img
           src=".github/assets/open-apps-collections.png"
-          alt="Open Apps collections page with curated views generated from application records"
+          alt="Open App Scout collections page with curated views generated from application records"
           width="420"
         />
       </a>
       <br />
       <a href="https://openappscout.com/collections/"><strong>Collections</strong></a>
       <br />
-      <sub>Curated and generated views built from the same source records.</sub>
+      <sub>Editor's picks and live views, with app icons and review dates.</sub>
     </td>
   </tr>
 </table>
