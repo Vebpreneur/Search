@@ -34,7 +34,7 @@ export const REGISTRY_NAMESPACE = '@grove';
 /** Where the built items are served; `{name}` is the shadcn placeholder. */
 export const REGISTRY_URL_TEMPLATE = 'https://withgrove.dev/r/{name}.json';
 /** The shadcn CLI release `grove init` drives. Pinned: item install behavior is version-specific. */
-export const SHADCN_VERSION = '4.19.0';
+export const SHADCN_VERSION = '4.21.0';
 /** The generated full-scaffold item. */
 export const SCAFFOLD_ITEM = 'default';
 /** What `.grove/registry.lock.json` records as `scaffold`. */
