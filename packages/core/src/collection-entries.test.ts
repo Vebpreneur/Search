@@ -132,7 +132,6 @@ describe('toCollectionEntries', () => {
       url: '/apps/a/',
       title: 'A',
       stack: 'rust',
-      license: 'MIT',
       licenses: ['MIT'],
       categories: ['tools', 'cli'],
       repoHref: 'https://github.com/o/a',

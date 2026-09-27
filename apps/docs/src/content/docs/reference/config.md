@@ -419,7 +419,6 @@ Each entry in `pages[]`:
 | `path` | `string`, non-empty | required | The page path to audit, e.g. `/projects/`. |
 | `type` | `"home" \| "directory" \| "collection" \| "record" \| "content" \| "empty" \| "404"` | required | The page kind, used to pick budget/reporting behavior (404 pages are scored but excluded from the pass/fail budget). |
 | `label` | `string`, non-empty | required | Human-readable label shown in audit output. |
-| `sample` | `Record<string, string>` | `undefined` | Optional sample route params, for pages whose path is a template. |
 
 ```ts
 audit: {

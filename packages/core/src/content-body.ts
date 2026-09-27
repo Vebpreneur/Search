@@ -8,9 +8,8 @@
  *   1. `resolveContentPath(contentPath, candidates?)`
  *      Locate a `ProjectRecord.content` path on disk. The candidates
  *      list mirrors the conventions a CLI-scaffolded project uses
- *      (`./content/...`, bare `content/...`, the legacy `apps/example`
- *      form for older workspaces). Returns the first existing absolute
- *      path, or null.
+ *      (`./content/...` and bare `content/...`). Returns the first
+ *      existing absolute path, or null.
  *
  *   2. `readContentFile(contentPath, candidates?)`
  *      Combine resolve + read + frontmatter strip. Returns
@@ -60,18 +59,9 @@ import { uniqueSlug } from './slug.js';
  *                              conventional `./content/...` form the
  *                              CLI scaffold writes).
  *   - `path` (relative cwd)   — bare `content/...` form.
- *   - `process.cwd()/apps/example/<path>` — legacy workspace layout
- *                              where the example lives inside the
- *                              monorepo. Kept for back-compat so an
- *                              old scaffold doesn't break when the
- *                              package gets bumped.
  */
 function defaultCandidates(contentPath: string): string[] {
-  return [
-    resolve(contentPath),
-    resolve(process.cwd(), contentPath),
-    resolve(process.cwd(), 'apps', 'example', contentPath),
-  ];
+  return [resolve(contentPath), resolve(process.cwd(), contentPath)];
 }
 
 /**

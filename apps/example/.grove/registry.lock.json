@@ -1,7 +1,7 @@
 {
   "scaffold": "@grove/default",
   "scaffoldVersion": "1.4.0",
-  "installedAt": "2026-09-26",
+  "installedAt": "2026-09-27",
   "fileCount": 81,
   "files": [
     {
@@ -43,8 +43,8 @@
     {
       "target": "src/components/grove/collection-page.astro",
       "source": "default/components/grove/collection-page.astro",
-      "hash": "sha256-f7658ab4e0d754500bb27b60395d12675fcc957cca6d0c96a30ae168923f214a",
-      "bytes": 15292
+      "hash": "sha256-3487bca65691b5ec8d90151e68fcba5309e51428bad659109a64ec6d59011bcf",
+      "bytes": 15258
     },
     {
       "target": "src/components/grove/collection-row.astro",

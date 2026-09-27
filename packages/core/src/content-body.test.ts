@@ -67,11 +67,10 @@ describe('resolveContentPath', () => {
     expect(found).toBe(join(tmpRoot, 'sub', 'file.md'));
   });
 
-  it('falls back to legacy apps/example layout', () => {
+  it('does not look inside a monorepo apps/example directory', () => {
     mkdirSync('apps/example/content', { recursive: true });
     writeFileSync('apps/example/content/legacy.md', '# hi', 'utf8');
-    const found = resolveContentPath('content/legacy.md');
-    expect(found).toMatch(/apps\/example\/content\/legacy\.md$/);
+    expect(resolveContentPath('content/legacy.md')).toBeNull();
   });
 });
 

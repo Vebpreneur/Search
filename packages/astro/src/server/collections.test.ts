@@ -38,7 +38,7 @@ describe('recordsToCollectionEntries', () => {
       url: '/projects/crewai/',
       stack: 'python',
       platform: ['linux', 'macos'],
-      license: 'MIT',
+      licenses: ['MIT'],
       status: 'keep',
       stars: 100,
       pushedAt: '2026-01-15T00:00:00Z',
@@ -199,7 +199,7 @@ describe('getCollectionPageModel', () => {
     });
     expect(model.entries.map((e) => e.slug)).toEqual(['dify']);
     expect(model.entries[0]?.note).toBe('Pick it for the workflow editor.');
-    const list = (model.jsonLd as Array<Record<string, unknown>>).find(
+    const list = (model.seo.jsonLd as Array<Record<string, unknown>>).find(
       (node) => node['@type'] === 'ItemList',
     ) as { numberOfItems: number; itemListElement: Array<{ description?: string }> };
     expect(list.numberOfItems).toBe(1);
@@ -219,13 +219,13 @@ describe('getCollectionPageModel', () => {
     expect(model.faq).toEqual([{ q: 'Is it free?', a: 'Yes.' }]);
     expect(model.collection.lastReviewedAt).toBe('2026-09-01');
     expect(model.collection.content).toBe('./content/collections/top.md');
-    const types = (model.jsonLd as Array<Record<string, unknown>>).map((node) => node['@type']);
+    const types = (model.seo.jsonLd as Array<Record<string, unknown>>).map((node) => node['@type']);
     expect(types).toContain('FAQPage');
 
     const plain = getCollectionPageModel(collection, entries, [collection]);
     expect(plain.faq).toEqual([]);
     expect(
-      (plain.jsonLd as Array<Record<string, unknown>>).map((node) => node['@type']),
+      (plain.seo.jsonLd as Array<Record<string, unknown>>).map((node) => node['@type']),
     ).not.toContain('FAQPage');
   });
 });
@@ -406,7 +406,14 @@ describe('getRecordContextModel', () => {
 
 describe('getCollectionTiles', () => {
   const entries: CollectionEntry[] = [
-    { slug: 'a', title: 'A', description: '', url: '/apps/a/', avatarUrl: 'https://img/a', stars: 10 },
+    {
+      slug: 'a',
+      title: 'A',
+      description: '',
+      url: '/apps/a/',
+      avatarUrl: 'https://img/a',
+      stars: 10,
+    },
     { slug: 'b', title: 'B', description: '', url: '/apps/b/' },
   ];
   const curated = {

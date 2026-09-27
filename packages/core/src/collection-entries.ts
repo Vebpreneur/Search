@@ -137,7 +137,6 @@ export function toCollectionEntries(
       ...(r.links?.website ? { homepageHref: r.links.website } : {}),
       ...(stack ? { stack } : {}),
       ...(r.platforms ? { platform: r.platforms } : {}),
-      ...(license ? { license } : {}),
       ...(licenses ? { licenses } : {}),
       ...(status ? { status } : {}),
       ...(stars !== undefined ? { stars } : {}),

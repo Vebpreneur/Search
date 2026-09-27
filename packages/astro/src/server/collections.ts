@@ -66,9 +66,6 @@ export interface CollectionPageModel {
   total: number;
   isEmpty: boolean;
   entries: CollectionEntry[];
-  /** CollectionPage + ItemList + BreadcrumbList JSON-LD nodes. Ships
-   *  through `seo.jsonLd`; kept here too for backward compatibility. */
-  jsonLd?: unknown;
   /** Complete head block: honors the collection's `seo.title`,
    *  `seo.description`, and `seo.index` overrides. Pass to BaseLayout. */
   seo: PageSeo;
@@ -194,7 +191,6 @@ export function getCollectionPageModel(
     isEmpty: result.isEmpty,
     entries: result.entries,
     related,
-    jsonLd,
     seo,
   };
 }

@@ -165,7 +165,7 @@ const jumpLinks = [
                           <span class="tabular-nums text-muted-foreground">{i + 1}.</span>
                           <a href={entry.url} class="text-foreground no-underline hover:underline">{entry.title}</a>
                         </h3>
-                        <Metrics stars={entry.stars} pushedAt={entry.pushedAt} license={entry.licenses?.[0] ?? entry.license} />
+                        <Metrics stars={entry.stars} pushedAt={entry.pushedAt} license={entry.licenses?.[0]} />
                       </div>
                     </div>
                     <p class="m-0 mt-4 max-w-[72ch] text-[0.9375rem] leading-relaxed text-foreground">{entry.note ?? entry.description}</p>
@@ -204,7 +204,7 @@ const jumpLinks = [
                   <p class="m-0 mt-3 line-clamp-2 text-sm leading-relaxed text-muted-foreground">{entry.description}</p>
                   <Chips items={(entry.tags ?? []).slice(0, 3)} />
                   <div class="mt-auto pt-3">
-                    <Metrics stars={entry.stars} pushedAt={entry.pushedAt} license={entry.licenses?.[0] ?? entry.license} bordered />
+                    <Metrics stars={entry.stars} pushedAt={entry.pushedAt} license={entry.licenses?.[0]} bordered />
                   </div>
                 </li>
               ))}
