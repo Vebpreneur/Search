@@ -18,7 +18,7 @@ src/
 ├── components/
 │   ├── ui/         # primitives — button, badge, empty-state, filter-drawer, page-header, search-field
 │   ├── grove/      # domain UI + page-level compositions — project-card, hero, directory-browse, taxonomy-list, …
-│   └── site/       # site chrome — theme-toggle
+│   └── site/       # site chrome — theme-toggle, featured-badge
 ├── layouts/        # base-layout, header, footer, container, seo, section-header
 ├── pages/          # home, browse, record detail, taxonomy, collections, submit, about, contributors, 404 — same update rules as everything else here
 ├── lib/            # UI-local helpers (classnames, icon-kinds, icon-registry, live-filters)
@@ -47,13 +47,13 @@ The registry groups its files into 12 feature-level items plus `default`, which 
 | `@grove/shell` | The document shell every page renders inside: `base-layout`, `header`, `footer`, `container`, `section-header`, `seo`, `theme-toggle`, `powered-by`, and `styles/system.css` (design tokens, light/dark theme, Tailwind theme). |
 | `@grove/project-card` | The canonical record card every listing surface renders through — `project-card`, `card-grid`, `card-icon`, the brand-mark `icon` component, and `lib/icon-kinds.ts` + `lib/icon-registry.ts`. |
 | `@grove/taxonomy` | Browse-by-category, -stack, and -license: `categories/`, `stacks/`, and `licenses/[name]` routes, the shared `taxonomy-list` body (the browse engine scoped to the term, so it depends on `@grove/browse`), and the `stack-grid` / `category-grid` the home page also renders. |
-| `@grove/collections` | Curated and generated collections: `collections/` index and detail routes, `collection-index`, `collection-page`, `collection-card`, `collection-row`, and `collection-teaser`. |
-| `@grove/home` | The landing route (`pages/index.astro`) with `hero`, `why-this-exists`, `pipeline-strip`, `record-section` (trending / new / established), `contributors-grid`, `original-collection`, and `final-cta`. |
+| `@grove/collections` | Collections: the `collections/` index and detail routes, `collection-directory` (the index page), `collection-page`, `collection-tile` (the card on the index and under "Related"), the entry parts `entry-avatar` / `entry-chips` / `entry-metrics`, and `collection-teaser` + `collection-index` + `collection-card` for the home-page teaser. `collection-row` still ships but no page uses it. |
+| `@grove/home` | The landing route (`pages/index.astro`) with `hero`, `hero-proof` (press mention, contributors and stars), `why-this-exists`, `pipeline-strip`, `record-section` (trending / new / established), `contributors-grid`, `original-collection`, and `final-cta`. |
 | `@grove/browse` | The list/discovery page and its paginated routes (`[slug]/index`, `[slug]/page/[page]`, `[slug]/page/cards`, `[slug]/page/records.json.ts`) with `directory-browse`, `directory-browse-view`, `directory-index-client`, `refine-panel`, `filter-group-menu`, `filter-options`, `smart-lens-tabs`, `index-row`, and `pagination`, plus `lib/live-filters.ts` (the tested URL, history-session, and label logic behind live filtering). |
-| `@grove/record` | The per-record route (`[slug]/[recordSlug]`) with `record-header`, `record-sidebar`, `editorial-summary`, `table-of-contents`, `markdown-body`, and `language-breakdown`. |
-| `@grove/submit` | `pages/submit.astro` and `submission-client` — fetch a repository, validate against the taxonomy, draft a record YAML for a pull request. |
+| `@grove/record` | The per-record route (`[slug]/[recordSlug]`) with `record-header`, `record-sidebar`, `editorial-summary`, `record-relations`, `related-records`, `table-of-contents`, `markdown-body`, `language-breakdown`, and `site/featured-badge`. |
+| `@grove/submit` | `pages/submit.astro` and `submission-client` — a three-step form: fetch a repository, fill in the details (with the submitter's GitHub username), check a live preview and checklist, open one pull request. |
 | `@grove/about` | `pages/about.astro` — the narrative about route, overridable from `content/pages/about.md`. |
-| `@grove/contributors` | `pages/contributors.astro` — the full contributors route with per-user contribution counts. |
+| `@grove/contributors` | `pages/contributors.astro` — "Added by the community" (records per `submittedBy`) and the full contributor grid. |
 | `@grove/not-found` | `pages/404.astro` — the on-brand fallback with a search form pointing at the browse page. |
 | `@grove/default` | Every file above, inlined, so the whole site installs in one step. This is what `grove init` installs and what `grove update` diffs against. |
 
@@ -67,24 +67,30 @@ Domain UI components rendered by Grove's pages. Each accepts a view-model-shaped
 |---|---|
 | `project-card.astro` | The canonical record card — logo, name, owner/repo, description, stack/star/updated footer. Every listing surface renders through it. |
 | `card-grid.astro` | The responsive three-column grid host for card children. |
-| `index-row.astro` / `collection-row.astro` | Thin `project-card` adapters for the browse page and collection pages respectively. |
+| `index-row.astro` | Thin `project-card` adapter for the browse page. (`collection-row.astro`, the old collection-page adapter, is unused.) |
 | `card-icon.astro` | Small metadata glyphs (star, clock, curated check, arrow) shared by card components. |
-| `record-header.astro` | Identity header at the top of a record detail page (avatar, pills, name, description, CTAs). |
-| `record-sidebar.astro` | Sticky right-hand column on the record detail page. |
+| `record-header.astro` | Identity header at the top of a record detail page (avatar, pills including "Submitted by @login", name, description, CTAs; the homepage link carries `ref`). |
+| `record-sidebar.astro` | Sticky right-hand column on the record detail page, ending with the Featured-on badge card. |
+| `record-relations.astro` / `related-records.astro` | "Alternative to …" relations and the related-records row on a record page. |
 | `record-section.astro` | Generic lens-style section wrapper used on the home page. |
-| `hero.astro` | Home banner with stats, search, quick filters, and CTAs. |
+| `hero.astro` | Home banner with stats, search, quick filters, and CTAs; `eyebrow` and `proof` slots. |
+| `hero-proof.astro` | `variant="pill"`: the newest `site.press` mention for the hero eyebrow. `variant="row"`: contributor faces, repository stars and the mention under the CTA. |
 | `stack-grid.astro` | Browse-by-stack grid for the home page and `/stacks/`. |
 | `category-grid.astro` | Browse-by-category grid for the home page and `/categories/`. |
 | `contributors-grid.astro` | Avatar grid with optional contribution counts. |
 | `original-collection.astro` | Legacy lineage card with stars/forks/contributors. |
-| `collection-card.astro` / `collection-index.astro` / `collection-page.astro` / `collection-teaser.astro` | Collection surfaces. |
+| `collection-directory.astro` | The `/collections/` page: a legend of the two kinds, the featured editor's-picks collection, then a grid of `collection-tile`s. |
+| `collection-page.astro` | One collection: header band, picks or ranked grid, sticky outline rail, body, "How we picked", FAQ, related cards. |
+| `collection-tile.astro` | A collection as a card — kind pill, title, takeaway, entry faces, review date. Takes a tile from `getCollectionTiles`. |
+| `entry-avatar.astro` / `entry-chips.astro` / `entry-metrics.astro` | An entry's icon, tag chips, and stars / last push / licence row (GitHub's licence placeholders are hidden). |
+| `collection-card.astro` / `collection-index.astro` / `collection-teaser.astro` | The home page's collections teaser. |
 | `final-cta.astro` | End-of-page "Know an X that belongs here?" CTA. |
 | `markdown-body.astro` | Renders pre-sanitized record body HTML. |
 | `language-breakdown.astro` | Code-composition bar + legend for the record detail sidebar. |
 | `editorial-summary.astro` | "Best for" + "Consider before using" cards on the record detail page. |
 | `table-of-contents.astro` | Collapsible TOC with scroll-spy and smooth scroll. |
 | `directory-index-client.astro` | Client controller for the browse page (filter, sort, paginate, chips). Filters apply live. With a `scope`, the record index is narrowed to it before anything else, and the scope never becomes a chip, a facet, or a URL parameter. Changes made while a popover or the drawer is open share one history entry, and the result count is announced through a debounced polite live region. |
-| `submission-client.astro` | Submit-form client (GitHub fetch + YAML preview). |
+| `submission-client.astro` | Submit-form client — GitHub fetch, repository card, live preview, checklist and step states, record draft. |
 | `refine-panel.astro` | Facet dropdowns used by the browse page. Every change applies at once and the popover stays open. There is no Apply button. |
 | `filter-group-menu.astro` / `filter-options.astro` | Single facet dropdown + checkbox list. |
 | `pagination.astro` | Previous/Next + windowed page list. |
@@ -114,14 +120,15 @@ Stateless, presentation-only primitives. Use them in any consumer page or in you
 | Component | Purpose |
 |---|---|
 | `theme-toggle.astro` | Three-mode (light/dark/system) switcher button. |
+| `featured-badge.astro` | "Maintainer? Add the badge" card with Markdown and HTML snippets — see [Attribution and credit](/customize/attribution/). |
 
 ## Layouts (`packages/registry/default/layouts/`)
 
 | Layout | Purpose |
 |---|---|
-| `base-layout.astro` | Document shell — `<head>`, theme-init, Header/Footer, GA4. |
+| `base-layout.astro` | Document shell — `<head>`, theme-init, Header/Footer, GA4 (page views and `data-event` clicks). |
 | `container.astro` | Width-constrained wrapper using `--grove-container`. |
-| `header.astro` | Sticky brand + nav + submit + repo button + theme toggle. |
+| `header.astro` | Sticky brand, nav with menu panels (`children`, or `menu: "collections"` filled from the collection files) and the current section marked, primary Submit, repo button, theme toggle. |
 | `footer.astro` | Four-column grid + copyright bar. |
 | `section-header.astro` | Eyebrow + heading + description block. |
 | `seo.astro` | `<title>`, OG, Twitter, JSON-LD emission. |

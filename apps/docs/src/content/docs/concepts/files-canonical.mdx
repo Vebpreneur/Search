@@ -65,7 +65,7 @@ file is in tells you whether you may edit it.
     - **Records** — `data/records/<slug>.yml`, or `content/records/<slug>.md` with the fields in YAML frontmatter and the review below. One typed entity per file ([formats](/reference/record-schema/#record-formats)).
     - **Markdown bodies** — `content/records/<slug>.md` without frontmatter, pointed at by a YAML record's `content:`. Optional long-form content.
     - **Taxonomy** — `data/taxonomy/*.yml`. Six controlled vocabularies.
-    - **Decisions** — `data/decisions.yml`. Curator overrides for visibility and sort priority.
+    - **Decisions** — `data/decisions.yml`. Curator overrides for visibility.
     - **Collections** — `data/collections/<slug>.yml`. Curated or ranked groupings.
     - **Content pages** — `content/pages/<slug>.md`. Standalone pages that aren't a record.
     - **Configuration** — `grove.config.ts`. Identity, routes, facets, theme, integrations.
@@ -126,7 +126,7 @@ In a typical day, a curator touches:
 <Steps>
 1. `data/records/<slug>.yml` — adding, renaming, retagging records.
 2. `data/taxonomy/*.yml` — adding category/stack entries.
-3. `data/decisions.yml` — overriding visibility, sort priority.
+3. `data/decisions.yml` — overriding visibility.
 4. `content/records/<slug>.md` — writing the long-form body.
 5. `data/collections/<slug>.yml` — curating a new collection.
 </Steps>

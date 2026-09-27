@@ -557,7 +557,7 @@ file. Implementation in `packages/cli/src/collection-cli.ts`.
 
 | Option | Description | Default |
 |---|---|---|
-| `--from <path>` **(required)** | Source filter path, e.g. `/browse?stack=flutter&category=finance` | — |
+| `--from <path>` **(required)** | Source filter path — your directory URL with its query, e.g. `/projects/?stack=flutter&category=finance`; only the query string is read | — |
 | `--slug <slug>` **(required)** | Slug for the new collection file | — |
 | `--title <title>` | Collection title | humanised slug (e.g. `My Slug`) |
 | `--description <description>` | Collection description | `Curated collection built from <from>.` |
@@ -608,7 +608,7 @@ loads.
 
 ```bash
 grove collection promote \
-  --from "/browse?stack=flutter&category=finance" \
+  --from "/projects/?stack=flutter&category=finance" \
   --slug top-finance-flutter \
   --title "Top Flutter finance apps" \
   --description "Flutter apps for personal finance, payments, and budgeting."

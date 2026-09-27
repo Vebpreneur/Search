@@ -17,12 +17,12 @@ import { Aside, Card, CardGrid, LinkButton, LinkCard, Steps, TabItem, Tabs } fro
 
 1. ## Find the filter you want to promote
 
-   Open your site in the browser and use the browse filters on `/browse`. Combine them until the result is the list you want to keep. The filters compose: pick a category, a stack, a platform — any combination.
+   Open your site in the browser and use the filters on your directory page (`/projects/` by default — whatever `routes.directory` is). Combine them until the result is the list you want to keep. The filters compose: pick a category, a stack, a platform — any combination.
 
    The filter expression ends up in the URL:
 
    ```text
-   http://localhost:4321/browse?stack=typescript&category=ai-tools
+   http://localhost:4321/projects/?stack=typescript&category=ai-tools
    ```
 
    <Aside type="note" title="What you should see">
@@ -37,7 +37,7 @@ import { Aside, Card, CardGrid, LinkButton, LinkCard, Steps, TabItem, Tabs } fro
      <TabItem label="pnpm" icon="seti:notebook">
        ```bash
        pnpm exec grove collection promote \
-         --from '/browse?stack=typescript&category=ai-tools' \
+         --from '/projects/?stack=typescript&category=ai-tools' \
          --slug typescript-ai-tools \
          --title 'TypeScript AI tools'
        ```
@@ -45,7 +45,7 @@ import { Aside, Card, CardGrid, LinkButton, LinkCard, Steps, TabItem, Tabs } fro
      <TabItem label="npm" icon="seti:notebook">
        ```bash
        npx grove collection promote \
-         --from '/browse?stack=typescript&category=ai-tools' \
+         --from '/projects/?stack=typescript&category=ai-tools' \
          --slug typescript-ai-tools \
          --title 'TypeScript AI tools'
        ```
@@ -53,7 +53,7 @@ import { Aside, Card, CardGrid, LinkButton, LinkCard, Steps, TabItem, Tabs } fro
      <TabItem label="bun" icon="seti:notebook">
        ```bash
        bunx grove collection promote \
-         --from '/browse?stack=typescript&category=ai-tools' \
+         --from '/projects/?stack=typescript&category=ai-tools' \
          --slug typescript-ai-tools \
          --title 'TypeScript AI tools'
        ```
@@ -92,13 +92,13 @@ import { Aside, Card, CardGrid, LinkButton, LinkCard, Steps, TabItem, Tabs } fro
      description: TypeScript-first AI tooling we'd reach for today.
      index: true
    editorial:
-     reviewer: maintainer-name
-     reviewedAt: "2026-04-01"
-     notes: Re-curated for the 2026 launch.
+     introduction: TypeScript-first AI tooling we'd reach for today, ranked by adoption and upkeep.
+     selectionNote: TypeScript as the primary stack, an AI-tools or agent-framework category, not archived.
+     lastReviewedAt: "2026-09-27"
    ```
 
    <Aside type="note" title="What you should see">
-     the dev server hot-reloads the collection page at `/collections/typescript-ai-tools/` with the new description, the editorial reviewer block, and the new ranking.
+     the dev server hot-reloads the collection page at `/collections/typescript-ai-tools/` with the introduction as its lead, the review date, a "How we picked" section from `selectionNote`, and the new ranking.
    </Aside>
 
 4. ## Validate the collection
@@ -115,10 +115,10 @@ import { Aside, Card, CardGrid, LinkButton, LinkCard, Steps, TabItem, Tabs } fro
 
    Visit `http://localhost:4321/collections/typescript-ai-tools/`. The page shows:
 
-   - The title and description.
-   - The ranked list of records.
-   - The "Last reviewed" badge from `editorial.reviewedAt`.
-   - The per-record detail links.
+   - The title, with `editorial.introduction` as the lead paragraph.
+   - The entry count and "Reviewed <date>" from `editorial.lastReviewedAt`.
+   - The records as ranked cards (or numbered picks, if you add a `note` to hand-picked `entries`).
+   - "How we picked" from `editorial.selectionNote`, and related collections.
 
    Visit `http://localhost:4321/collections/` to see the index of all collections — your new one appears here too.
 
