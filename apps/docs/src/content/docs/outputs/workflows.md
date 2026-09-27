@@ -43,8 +43,10 @@ add a step yourself — see [Audit](/automation/audit/).
 They do not all use the same mechanism, and the difference matters.
 
 **Pull request** — `sync-github.yml` and `readme.yml` both open a PR with
-`peter-evans/create-pull-request@v6` rather than pushing to `main`. Record
-YAML and `README.md` are files a human should look at before they land.
+`peter-evans/create-pull-request@v6` rather than pushing to `main`. The sync
+cache and `README.md` are files a human should look at before they land; the
+sync PR is limited to `data/cache/github/` with `add-paths`, so it never
+carries record changes.
 `readme.yml` checks `git diff --quiet README.md` first and skips the PR step
 entirely when nothing changed.
 
@@ -55,6 +57,7 @@ entirely when nothing changed.
     title: "Sync GitHub metadata"
     branch: chore/sync-github
     delete-branch: true
+    add-paths: data/cache/github/**
 ```
 
 **Direct commit** — `sync-contributors.yml` pushes straight to the branch

@@ -66,7 +66,7 @@ Two things produce output, and it is worth knowing which is which:
   <Card title="On demand" icon="setting">
     These are separate commands, usually run on a schedule rather than in a build:
 
-    - `grove sync github` — refreshes the `github.*` block inside your record files.
+    - `grove sync github` — refreshes each record's GitHub data into the sync cache, `data/cache/github/<slug>.json`. Record files are never written.
     - `grove sync contributors` — writes `data/generated/contributors.json` and
       `repo-stats.json`.
     - `grove cleanup` — writes `data/generated/cleanup-report.json`.

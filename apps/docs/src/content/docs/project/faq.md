@@ -52,9 +52,9 @@ No. `site.locale` sets one language for the whole site — it drives `<html lang
 
 ## How are stars and freshness computed?
 
-`grove sync github` fetches stars, forks, language, topics, license, and `pushed_at` from the GitHub API and writes them under `github.*` on each record.
+`grove sync github` fetches stars, forks, language, topics, license, and `pushed_at` from the GitHub API and writes them to the sync cache, one file per record in `data/cache/github/`. Every build merges the cache into `records.json`; the record files themselves are never written.
 
-Health (`active` / `stale` / `inactive` and the `tier` above it) is a *separate* derivation, implemented as `classifyHealth` in `packages/core/src/health.ts`. Set `integrations.github.health: true` and `grove sync github` writes the derived entries to `data/health.yml` in the same run; leave it off and the file is yours to author. See [Maintain health signals](/content/health-classification/).
+Health (`active` / `stale` / `inactive` and the `tier` above it) is a *separate* derivation, implemented as `classifyHealth` in `packages/core/src/health.ts`. Set `integrations.github.health: true` and `grove sync github` writes the derived `health` block into each record's cache entry in the same run; leave it off and `data/health.yml` is yours to author. See [Maintain health signals](/content/health-classification/).
 
 ## What is `llms.txt`?
 

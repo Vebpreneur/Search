@@ -91,8 +91,8 @@ caveats:
   The slug is the filename minus `.yml`. If `slug: prisma-vs-drizzle` is in `prisma.yml`, the build still publishes it at `/resources/prisma-vs-drizzle/` — the filename always wins — but `grove check` prints a mismatch warning, and it's confusing for the next contributor. Keep them the same.
 </Aside>
 
-<Aside type="caution" title="Editing the `github` or `health` block by hand">
-  Both are machine-written by `grove sync github`. Hand edits get overwritten on the next sync. If you disagree with the derived health, write a [decision](/concepts/decisions/) instead of editing `health` directly.
+<Aside type="caution" title="Don't write `github` or `health` into a record">
+  Both come from the sync cache (`data/cache/github/<slug>.json`), which `grove sync github` owns. An inline block in a record is a pre-0.13 leftover: the cache wins over it and `grove check` warns (`grove migrate github-cache` moves it). If you disagree with the derived health, write a [decision](/concepts/decisions/).
 </Aside>
 
 <Aside type="caution" title="Adding a `category` with no other records">
@@ -237,19 +237,10 @@ whyListed: ["Reason 1", "Reason 2"]
 caveats: ["Caveat 1"]
 distribution:
   channels: []
-github:                                    # refreshed by grove sync github
-  repository: {}                           # raw REST shape
-  languages: {}
-  sync: { syncedAt, source }
-health:                                    # auto-derived by classifyHealth()
-  status: active
-  maturity: useful
-  tier: listed
-  visibility: keep
-  cleanupCandidate: false
-  confidence: medium
-  reasons: []
 ```
+
+`github` and `health` are not written in the record: they come from the
+sync cache at build time (see above).
 
 ### What you'll do day-to-day
 

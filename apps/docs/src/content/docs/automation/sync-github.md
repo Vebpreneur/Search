@@ -31,7 +31,7 @@ If `integrations.github.metadata` is `false`, running `grove sync github` prints
 
 ## What it does, in order
 
-For each `.yml` file in `config.paths.recordsDir` (default `data/records`, sorted alphabetically, optionally truncated by `--limit`):
+For each record file — `.yml` in `config.paths.recordsDir` (default `data/records`) and `.md` in `config.paths.bodiesDir` (default `content/records`), sorted by slug, optionally truncated by `--limit`:
 
 1. Parses the file and reads `repoUrl`, falling back to `links.github` if `repoUrl` is unset.
 2. If neither is set, logs `[sync github] <file>: no repository, skipped` and moves on.

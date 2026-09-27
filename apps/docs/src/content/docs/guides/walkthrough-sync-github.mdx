@@ -1,12 +1,12 @@
 ---
 title: "Walkthrough: sync GitHub metadata"
-description: Refresh every record's github.* block with live stars, forks, language, topics, and license, end-to-end.
+description: Refresh every record's GitHub data — stars, forks, language, topics, license — into the sync cache, end-to-end.
 ---
 
 import { Aside, Card, CardGrid, FileTree, LinkButton, LinkCard, Steps, TabItem, Tabs } from '@astrojs/starlight/components';
 
 <Aside type="note" title="Before you start">
-  By the end of this walkthrough every record that has a `repoUrl` will have a populated `github.*` block. The walkthrough assumes you have at least one record with `repoUrl` set — if not, complete [Walkthrough: add your first record](/getting-started/first-record/) first.
+  By the end of this walkthrough every record that has a `repoUrl` will have a cache entry in `data/cache/github/<slug>.json` with its live GitHub data. The walkthrough assumes you have at least one record with `repoUrl` set — if not, complete [Walkthrough: add your first record](/getting-started/first-record/) first.
 
   A token is not strictly required. Without one the sync calls the GitHub API unauthenticated, which is heavily rate-limited, and falls back to scraping the repo page when the API call fails. With more than a handful of records you want a token.
 </Aside>
@@ -83,13 +83,15 @@ import { Aside, Card, CardGrid, FileTree, LinkButton, LinkCard, Steps, TabItem, 
      </TabItem>
    </Tabs>
 
-   The command walks every record, calls the GitHub REST API for the repo at `repoUrl`, and writes back into the record YAML:
+   The command walks every record — `data/records/*.yml` and `content/records/*.md` — calls the GitHub REST API for the repo at `repoUrl`, and writes one JSON file per record to the **sync cache**, `data/cache/github/<slug>.json`. Record files are read, never written: your curated YAML and Markdown stay exactly as you left them.
 
-   - `github.repository` — `full_name`, `stargazers_count`, `forks_count`, `open_issues_count`, `language`, `pushed_at`, `updated_at`, `archived`, `disabled`, `default_branch`, `license`, and `topics`. Merged over whatever was already there, so extra keys you added survive.
+   Each cache entry carries:
+
+   - `github.repository` — `full_name`, `stargazers_count`, `forks_count`, `open_issues_count`, `language`, `pushed_at`, `updated_at`, `archived`, `disabled`, `default_branch`, `license`, and `topics`.
    - `github.latestReleaseAt` and `github.homepage` — written only when GitHub returned them.
    - `github.sync` — `{ syncedAt, source }` provenance, where `source` is `api` or `html`.
-
-   Everything above lands under `github.`. It never touches `curation` or any prose you wrote — the patch is merged into the existing `github` block, so fields outside the sync surface survive a re-run. `health` is separate: it's only written when `integrations.github.health` is enabled (off by default), and lands as a top-level `health:` block on the record, not under `github.`.
+   - `lastSuccessAt` and `partialFailures` — when the last good sync happened and what went wrong since.
+   - `health` — only when `integrations.github.health` is enabled (off by default).
 
    <Aside type="note" title="What you should see">
      One line per record: `[sync github] <file>: api`, or `html` when the fallback handled it, or `no repository, skipped` / `invalid GitHub URL, skipped` / `unavailable`. The run ends with a count of updated, HTML-fallback, and failed records, followed by a table naming each record that fell back to HTML or failed, with the reason. In GitHub Actions the same table is appended to the job summary.
@@ -97,45 +99,49 @@ import { Aside, Card, CardGrid, FileTree, LinkButton, LinkCard, Steps, TabItem, 
 
    Two flags are worth knowing: `--limit <count>` processes only the first N record files (useful for a dry run), and `--strict` sets a non-zero exit code when any record failed.
 
-5. ## Inspect the new fields
+5. ## Inspect the cache
 
-   Open any record that has a `repoUrl`:
+   Open the cache entry for any record that has a `repoUrl`:
 
-   ```yaml title="data/records/astro.yml"
-   kind: project
-   name: astro
-   repoUrl: https://github.com/withastro/astro
-   github:
-     repository:
-       full_name: withastro/astro
-       stargazers_count: 51234
-       forks_count: 2678
-       open_issues_count: 143
-       language: TypeScript
-       pushed_at: "2026-03-28T09:11:52Z"
-       updated_at: "2026-03-28T09:11:52Z"
-       archived: false
-       disabled: false
-       default_branch: main
-       license:
-         spdx_id: MIT
-         name: MIT
-       topics: [astro, static-site-generator, ssg]
-     latestReleaseAt: "2026-03-20T16:04:00Z"
-     homepage: https://astro.build
-     sync:
-       syncedAt: "2026-04-01T10:23:00Z"
-       source: api
+   ```json title="data/cache/github/astro.json"
+   {
+     "schemaVersion": 1,
+     "slug": "astro",
+     "repoUrl": "https://github.com/withastro/astro",
+     "source": "api",
+     "lastSuccessAt": "2026-09-27T03:11:42.000Z",
+     "partialFailures": [],
+     "github": {
+       "repository": {
+         "full_name": "withastro/astro",
+         "stargazers_count": 51234,
+         "forks_count": 2678,
+         "language": "TypeScript",
+         "pushed_at": "2026-09-26T09:11:52Z",
+         "license": { "spdx_id": "MIT", "name": "MIT License" },
+         "topics": ["astro", "static-site-generator", "ssg"]
+       },
+       "latestReleaseAt": "2026-09-20T16:04:00Z",
+       "homepage": "https://astro.build",
+       "sync": { "syncedAt": "2026-09-27T03:11:42.000Z", "source": "api" }
+     }
+   }
    ```
 
+   Every build reads the cache and merges it into the record in `records.json`, so pages show the new star counts without anyone editing a record. The full format is in [Sync GitHub metadata → The cache file](/automation/sync-github/#the-cache-file).
+
    <Aside type="note" title="Health is opt-in">
-     With `integrations.github.health` left off (the default shown above), star counts do not promote a record's `tier` and nothing writes `health.*` here — health entries live in `data/health.yml` and are authored separately. Turn the flag on and a `health:` block is written inline on the record instead — see [Maintain health signals](/content/health-classification/).
+     With `integrations.github.health` left off (the default shown above), star counts do not promote a record's `tier` and the cache entry has no `health` block — health comes from `data/health.yml` if you author one. Turn the flag on and each entry gets a derived `health` block — see [Maintain health signals](/content/health-classification/).
    </Aside>
 
    <FileTree>
    - data
+     - cache
+       - github
+         - **astro.json** _(written by the sync)_
+         - other-record.json
      - records
-       - **astro.yml** _(gained a `github.*` block after sync)_
+       - astro.yml _(unchanged)_
        - other-record.yml
    - grove.config.ts
    - package.json
@@ -144,13 +150,17 @@ import { Aside, Card, CardGrid, FileTree, LinkButton, LinkCard, Steps, TabItem, 
 6. ## Commit and open the PR
 
    ```bash
-   git add data/records/*.yml
+   git add data/cache/github/
    git commit -m "Sync GitHub metadata"
    git push
    ```
 
    <Aside type="note" title="What you should see">
-     the diff is contained to `github.*` blocks. Review it to confirm no curator content was overwritten — the merge keeps additions outside the sync surface, but a quick look costs nothing.
+     The diff touches only `data/cache/github/` — star counts, timestamps and release dates. No record file changes, so a sync pull request never needs a curator's review of prose.
+   </Aside>
+
+   <Aside type="tip" title="Records that still carry an inline github block">
+     Sites from before Grove 0.13 may have `github:` / `health:` written inside their record files. The cache wins over them, and the sync prints how many remain. `grove migrate github-cache` moves them into the cache in one pass.
    </Aside>
 
 </Steps>
