@@ -22,6 +22,19 @@ For the developer workflow that produces these entries, see
 
 ---
 
+## [1.0.1](https://github.com/tortuvshin/grove/compare/v1.0.0...v1.0.1) (2026-09-27)
+
+
+### Documentation
+
+* CLI, outputs and API references match 1.0 ([66621d6](https://github.com/tortuvshin/grove/commit/66621d66d8aea2dca50cd7e6953af7aec2c1a647))
+* collections and registry components match registry 1.5.0 ([4706242](https://github.com/tortuvshin/grove/commit/4706242a5ab90b40a61e970b7f12084ac08758de))
+* getting started works on 1.0 ([b711323](https://github.com/tortuvshin/grove/commit/b711323952425cd03bddae82d8ddf8aa306b4342))
+* **home:** 1.0 on the landing page and README ([f0729eb](https://github.com/tortuvshin/grove/commit/f0729ebabf7b3e13d80a1daf29610b76f4a51dda))
+* records are YAML or Markdown ([746e3b2](https://github.com/tortuvshin/grove/commit/746e3b25f74e5833c7ffba21382f248ca7422ee5))
+* submissions, attribution and credit ([bd1de41](https://github.com/tortuvshin/grove/commit/bd1de4145d51166a53b5184ed9e5fe983adb1208))
+* sync writes the cache, not record files ([d71f133](https://github.com/tortuvshin/grove/commit/d71f133eaf76f45744dd289f8f30e48f0c3478da))
+
 ## [1.0.0](https://github.com/tortuvshin/grove/compare/v0.19.0...v1.0.0) (2026-09-27)
 
 
