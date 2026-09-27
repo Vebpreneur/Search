@@ -9,7 +9,7 @@ The Grove CLI (`@grove-dev/cli`) is the single tool you use to scaffold a space,
 
 <Aside type="note" title="Prerequisites">
   - Node `>=22.12.0`
-  - pnpm `10.12.1` (or a compatible Node package manager — npm, yarn, or bun work too)
+  - A Node package manager — pnpm, npm, yarn or bun. `grove init` detects the one you ran it with.
 </Aside>
 
 ## Verify your environment
@@ -20,21 +20,21 @@ Run these commands to confirm your toolchain is ready before installing.
   <TabItem label="bash">
     ```bash
     node --version    # v22.12.0 or higher
-    pnpm --version    # 10.12.1 or compatible
+    pnpm --version    # any pnpm 10 (or use npm, yarn or bun)
     corepack enable   # one-time, only if pnpm isn't installed yet
     ```
   </TabItem>
   <TabItem label="fish">
     ```fish
     node --version    # v22.12.0 or higher
-    pnpm --version    # 10.12.1 or compatible
+    pnpm --version    # any pnpm 10 (or use npm, yarn or bun)
     corepack enable   # one-time, only if pnpm isn't installed yet
     ```
   </TabItem>
   <TabItem label="PowerShell">
     ```powershell
     node --version    # v22.12.0 or higher
-    pnpm --version    # 10.12.1 or compatible
+    pnpm --version    # any pnpm 10 (or use npm, yarn or bun)
     corepack enable   # one-time, only if pnpm isn't installed yet
     ```
   </TabItem>
@@ -154,19 +154,39 @@ Expected output (excerpt — the version number and column widths vary by releas
 
 ```text
 $ grove --version
-0.x.y
+1.x.y
 
 $ grove --help
 Usage: grove [options] [command]
 
+Build and maintain a Grove-powered directory.
+
 Commands:
-  init [options] [directory]   Create a complete Grove directory from the official site.
-  check [options]              Validate data, generate artifacts, and run Astro checks.
-  sync [options] <target>      Refresh GitHub metadata owned by Grove.
-  cleanup [options]            Write a report of records that need human review.
-  collection                   Curated collection management
-  readme                       Generate an awesome-list formatted README from data/records/.
-  ...
+  init [options] [directory]  Create a Grove project by installing the
+                              @grove/default registry scaffold.
+  check [options]             Validate data, generate artifacts, and run Astro
+                              checks.
+  sync [options] <target>     Refresh GitHub metadata owned by Grove into the
+                              sync cache (paths.githubCache).
+  cleanup [options]           Write a report of records that need human review.
+  update [options]            Reconcile the consumer's installed scaffold
+                              against the registry upstream. Never overwrites
+                              locally modified files.
+  audit [options]             Run Lighthouse against every page in
+                              grove.config.ts audit.pages[] and enforce the
+                              default quality budget.
+  candidates [options]        List channel and media candidates from the GitHub
+                              sync cache that nobody has approved or rejected
+                              yet.
+  collection                  Curated collection management
+  health [options] [readme]   Check the health of every repository linked from a
+                              README — no Grove project required.
+  icons                       Manage the packaged icon set.
+  import <source>             Turn an awesome-list README into
+                              data/records/<slug>.yml files.
+  migrate                     One-off data migrations between Grove versions.
+  readme                      Generate an awesome-list formatted README from
+                              data/records/.
 ```
 
 If you see `command not found: grove`, see [Troubleshooting](#command-not-found-grove) below.

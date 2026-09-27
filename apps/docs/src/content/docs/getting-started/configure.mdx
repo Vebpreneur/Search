@@ -77,7 +77,7 @@ The full field reference is in **[grove.config.ts reference](/reference/config/)
    }
    ```
 
-   - `site.url` is the canonical base for every record's `<link rel="canonical">` and `og:url`. **If you omit it, OG tags resolve to `https://example.com`** and search engines treat every page as the canonical version.
+   - `site.url` is the canonical base for every record's `<link rel="canonical">` and `og:url`, and the scaffold's `astro.config.mjs` passes it to Astro as `site` (a `SITE_URL` environment variable overrides it). **Without it the build fails** — the SEO layout refuses to emit canonical and Open Graph URLs for a domain you don't own. It is also the default `ref` on outbound links (see [Attribution and credit](/customize/attribution/)).
    - `site.repoUrl` points at *your site's* repository — it drives the submit-a-record page's "open a pull request" link, the contributors page, and the `sync contributors` fallback. Per-record stars/forks come from each record's own `repoUrl` field, not this one.
    - `site.description` is optional but recommended — it populates the site-wide JSON-LD.
 
@@ -146,17 +146,39 @@ The full field reference is in **[grove.config.ts reference](/reference/config/)
 
 6. ### Navigation
 
-   Define the header nav. Each entry has a label and an href:
+   Define the header nav. Each entry has a label and an href; add `children` to open a menu panel, or `menu: "collections"` to fill one from your collection files:
 
    ```ts
    nav: [
-     { label: "Home",   href: "/" },
-     { label: "Browse", href: "/projects" },
-     { label: "About",  href: "/about" },
+     {
+       label: "Browse",
+       href: "/projects/",
+       children: [
+         { label: "All projects", href: "/projects/", description: "Search and filter everything" },
+         { label: "Categories", href: "/categories/" },
+         { label: "Stacks", href: "/stacks/" },
+       ],
+     },
+     { label: "Collections", href: "/collections/", menu: "collections" },
+     { label: "About", href: "/about/" },
    ]
    ```
 
-   The order of entries is render order. Each entry is just `label` and `href` — point `href` at a full URL for an off-site link. (The `external: true` flag exists on `footer.columns[].items`, not on top-level `nav`.)
+   The order of entries is render order; the logo already links home. `description` is the small line under a menu link. The item whose `href` — or one of its children's — starts the current path is marked as the current section. Point `href` at a full URL for an off-site link. (The `external: true` flag exists on `footer.columns[].items`, not on top-level `nav`.)
+
+7. ### Press and attribution (optional)
+
+   List places that featured your site under `site.press` — the home page links the newest one — and adjust `outbound` if links to listed projects should carry a different `ref` than your host:
+
+   ```ts
+   site: {
+     // …
+     press: [{ outlet: "Astro", title: "What's new in Astro — August 2026", url: "https://astro.build/blog/whats-new-august-2026/", date: "2026-08" }],
+   },
+   outbound: { ref: "mydir.dev" }, // default: the host of site.url; false turns it off
+   ```
+
+   See [Attribution and credit](/customize/attribution/).
 
 </Steps>
 
