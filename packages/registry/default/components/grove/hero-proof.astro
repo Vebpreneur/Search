@@ -20,7 +20,14 @@ interface Props {
 }
 
 const { variant, contributors = [] } = Astro.props;
-type Press = { outlet: string; title: string; url: string; date: string; label?: string; logo?: string };
+type Press = {
+  outlet: string;
+  title: string;
+  url: string;
+  date: string;
+  label?: string;
+  logo?: string;
+};
 const site = siteConfig as {
   press?: Press[];
   repoUrl?: string;
@@ -31,7 +38,11 @@ const stars = site.stats?.repositoryStars ?? 0;
 const people = site.stats?.repositoryContributors || contributors.length;
 const faces = contributors.filter((c) => c.avatarUrl).slice(0, 5);
 const monthYear = (date: string) =>
-  new Date(`${date}-01T00:00:00Z`).toLocaleDateString('en-US', { month: 'long', year: 'numeric', timeZone: 'UTC' });
+  new Date(`${date}-01T00:00:00Z`).toLocaleDateString('en-US', {
+    month: 'long',
+    year: 'numeric',
+    timeZone: 'UTC',
+  });
 ---
 
 {variant === 'pill' ? (

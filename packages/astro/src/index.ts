@@ -25,7 +25,7 @@
  * and nothing happened" surprise.
  */
 import { existsSync } from 'node:fs';
-import { dirname, resolve } from 'node:path';
+import { resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { loadConfig, prepareDirectory } from '@grove-dev/core';
 import type { AstroIntegration } from 'astro';
@@ -38,8 +38,6 @@ export * from '@grove-dev/core';
 // counts, and pretty-print display maps. All dependency-free and
 // typed against `@grove-dev/core`.
 export * from './lib/index.js';
-
-const here = dirname(fileURLToPath(import.meta.url));
 
 // Virtual module id used to inject the consumer's `src/styles/global.css`.
 // Resolved by the inline Vite plugin below to the absolute file path

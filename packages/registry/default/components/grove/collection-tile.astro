@@ -23,7 +23,12 @@ const namesText = names.length
   ? `${names.join(', ')}${tile.count > names.length ? ` and ${tile.count - names.length} more` : ''}`
   : '';
 const reviewedText = tile.reviewedAt
-  ? new Date(tile.reviewedAt).toLocaleDateString('en', { year: 'numeric', month: 'short', day: 'numeric', timeZone: 'UTC' })
+  ? new Date(tile.reviewedAt).toLocaleDateString('en', {
+      year: 'numeric',
+      month: 'short',
+      day: 'numeric',
+      timeZone: 'UTC',
+    })
   : undefined;
 ---
 

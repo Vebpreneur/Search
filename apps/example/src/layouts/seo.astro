@@ -98,7 +98,7 @@ const locale = siteConfig.locale ?? 'en';
 // Truncate description for OG/Twitter where longer is worse (160–200 chars).
 function truncate(s: string, max: number): string {
   if (s.length <= max) return s;
-  return s.slice(0, max - 1).trimEnd() + '…';
+  return `${s.slice(0, max - 1).trimEnd()}…`;
 }
 const shortDescription = truncate(description, 200);
 

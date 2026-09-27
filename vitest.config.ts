@@ -166,7 +166,7 @@ export default defineConfig({
     // vitest/vite SSR loader wouldn't be looking for stale
     // module-resolution temp files from a previous run.
     env: {
-      TMPDIR: TMPDIR + '/',
+      TMPDIR: `${TMPDIR}/`,
     },
   },
 });

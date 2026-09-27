@@ -26,7 +26,7 @@ import Container from '../layouts/container.astro';
 import { buttonClass } from '../lib/classnames.ts';
 
 type Press = { outlet: string; title: string; url: string; date: string; logo?: string };
-const press = ((siteConfig as { press?: Press[] }).press ?? []);
+const press = (siteConfig as { press?: Press[] }).press ?? [];
 
 const githubUrl = siteConfig.repoUrl;
 const seo = getAboutPageSeo(siteConfig);

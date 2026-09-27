@@ -85,10 +85,18 @@ const menus = navItems.map((item) => {
   const children: NavLink[] =
     item.menu === 'collections'
       ? collections
-          .map((c) => ({ label: c.title, href: `/collections/${c.slug}/`, description: c.description }))
+          .map((c) => ({
+            label: c.title,
+            href: `/collections/${c.slug}/`,
+            description: c.description,
+          }))
           .sort((a, b) => a.label.localeCompare(b.label))
       : (item.children ?? []);
-  return { ...item, children, footer: item.menu === 'collections' ? { label: 'All collections', href: item.href } : undefined };
+  return {
+    ...item,
+    children,
+    footer: item.menu === 'collections' ? { label: 'All collections', href: item.href } : undefined,
+  };
 });
 const withSlash = (path: string) => (path.endsWith('/') ? path : `${path}/`);
 const pathname = withSlash(Astro.url.pathname);

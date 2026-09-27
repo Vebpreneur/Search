@@ -38,7 +38,12 @@ const featured = tiles
 const rest = tiles.filter((t) => t !== featured);
 const reviewedText = (date?: string) =>
   date
-    ? new Date(date).toLocaleDateString('en', { year: 'numeric', month: 'short', day: 'numeric', timeZone: 'UTC' })
+    ? new Date(date).toLocaleDateString('en', {
+        year: 'numeric',
+        month: 'short',
+        day: 'numeric',
+        timeZone: 'UTC',
+      })
     : undefined;
 ---
 

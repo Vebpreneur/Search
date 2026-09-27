@@ -51,12 +51,6 @@ function tagBy(head: string, attr: string, value: string): string | null {
   return head.match(re)?.[0] ?? null;
 }
 
-function contentOf(tag: string | null): string {
-  if (!tag) return '';
-  const m = tag.match(/content="([^"]*)"/);
-  return m?.[1] ?? '';
-}
-
 describe('SEO + page-structure parity', () => {
   // For each page that exists on both sides, assert the same
   // canonical SEO skeleton. We treat the example's build as the

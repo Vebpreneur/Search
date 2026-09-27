@@ -47,7 +47,8 @@ const {
 } = detail;
 // Links to the record's own site carry `ref=<site host>`; see `outbound`
 // in grove.config.ts.
-const outbound = (siteConfig as { outbound?: { ref?: string | false; skipHosts?: string[] } }).outbound ?? {};
+const outbound =
+  (siteConfig as { outbound?: { ref?: string | false; skipHosts?: string[] } }).outbound ?? {};
 const homepageHref = withRef(homepageUrl, outbound);
 const submittedBy = (record as { submittedBy?: string }).submittedBy;
 ---

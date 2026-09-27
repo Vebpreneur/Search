@@ -57,7 +57,7 @@ export default defineConfig({
         // (integration order in this array is hook order).
         'astro:build:done': async ({ dir }) => {
           const lines = Object.entries(REDIRECTS).map(([from, to]) => `${from} ${to} 301`);
-          await writeFile(new URL('_redirects', dir), lines.join('\n') + '\n');
+          await writeFile(new URL('_redirects', dir), `${lines.join('\n')}\n`);
           // The site is small enough for a single sitemap, and
           // /sitemap.xml is the address everything advertises —
           // publish the real urlset there (the sitemap-index.xml

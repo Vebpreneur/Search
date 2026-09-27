@@ -5,10 +5,8 @@
 // renders text with system font stacks, so rasterizing on the deploy image
 // would produce different (and unreviewed) output than rasterizing here.
 import { readFile } from 'node:fs/promises';
-import { fileURLToPath } from 'node:url';
 import sharp from 'sharp';
 
-const root = fileURLToPath(new URL('..', import.meta.url));
 const pub = (p) => new URL(`../public/${p}`, import.meta.url).pathname;
 
 const ACCENT = '#7dd3d8';

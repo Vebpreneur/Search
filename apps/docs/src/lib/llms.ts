@@ -74,7 +74,7 @@ export function buildDocsLlmsTxt(input: {
     sections.push(`## Other\n\n${rest.map((page) => linkLine(page, site.url)).join('\n')}`);
   }
 
-  return [`# ${site.name}`, `> ${site.description}`, ...sections].join('\n\n') + '\n';
+  return `${[`# ${site.name}`, `> ${site.description}`, ...sections].join('\n\n')}\n`;
 }
 
 /**
@@ -91,5 +91,5 @@ export function buildDocsLlmsFullTxt(input: { site: LlmsSite; pages: LlmsPage[] 
     if (body) lines.push(``, body);
     return lines.join('\n');
   });
-  return [header, ...sections].join('\n\n---\n\n') + '\n';
+  return `${[header, ...sections].join('\n\n---\n\n')}\n`;
 }

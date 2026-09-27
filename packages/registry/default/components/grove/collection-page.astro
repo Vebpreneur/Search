@@ -87,10 +87,13 @@ const reviewedText = model.collection.lastReviewedAt
       timeZone: 'UTC',
     })
   : null;
-const outbound = (siteConfig as { outbound?: { ref?: string | false; skipHosts?: string[] } }).outbound ?? {};
+const outbound =
+  (siteConfig as { outbound?: { ref?: string | false; skipHosts?: string[] } }).outbound ?? {};
 const faces = model.entries.filter((e) => e.avatarUrl).slice(0, 6);
 const jumpLinks = [
-  model.isEmpty ? null : { href: '#entries', label: editorial ? `The ${countText}` : `All ${countText}` },
+  model.isEmpty
+    ? null
+    : { href: '#entries', label: editorial ? `The ${countText}` : `All ${countText}` },
   model.collection.selectionNote ? { href: '#how-we-picked', label: 'How we picked' } : null,
   model.faq.length > 0 ? { href: '#faq', label: 'Questions' } : null,
   model.related.length > 0 ? { href: '#related', label: 'Related collections' } : null,

@@ -1,7 +1,5 @@
 ---
 import siteConfig from '@grove/generated/site-config.json';
-import { withRef } from '@grove-dev/core';
-import FeaturedBadge from '../site/featured-badge.astro';
 import type { RecordDetailModel } from '@grove-dev/astro/server';
 import { taxonomyLabel } from '@grove-dev/astro/server';
 /**
@@ -24,7 +22,8 @@ import { taxonomyLabel } from '@grove-dev/astro/server';
  * scrolls the body. Cards are individually rendered so the
  * sticky container's height is bounded by the actual content.
  */
-import { licenseDisplay } from '@grove-dev/core';
+import { licenseDisplay, withRef } from '@grove-dev/core';
+import FeaturedBadge from '../site/featured-badge.astro';
 import Badge from '../ui/badge.astro';
 import Icon from './icon.astro';
 import LanguageBreakdown from './language-breakdown.astro';
@@ -97,8 +96,10 @@ function row(label: string, value: unknown) {
   if (value === null || value === undefined || value === '') return null;
   return { label, value };
 }
-const outbound = (siteConfig as { outbound?: { ref?: string | false; skipHosts?: string[] } }).outbound ?? {};
-const siteOrigin = new URL((siteConfig as { siteUrl?: string }).siteUrl ?? 'https://example.com').origin;
+const outbound =
+  (siteConfig as { outbound?: { ref?: string | false; skipHosts?: string[] } }).outbound ?? {};
+const siteOrigin = new URL((siteConfig as { siteUrl?: string }).siteUrl ?? 'https://example.com')
+  .origin;
 ---
 
 <aside

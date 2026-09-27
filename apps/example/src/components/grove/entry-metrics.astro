@@ -12,7 +12,9 @@ interface Props {
 }
 const { stars, pushedAt, bordered = false } = Astro.props;
 // GitHub's placeholders (NOASSERTION, OTHER…) say nothing useful here.
-const license = isDetectedLicense(Astro.props.license) ? licenseDisplay(Astro.props.license) : undefined;
+const license = isDetectedLicense(Astro.props.license)
+  ? licenseDisplay(Astro.props.license)
+  : undefined;
 const starsText = typeof stars === 'number' && stars > 0 ? formatStars(stars) : undefined;
 const pushedText = pushedAt ? formatRelative(pushedAt) : undefined;
 ---
