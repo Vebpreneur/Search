@@ -11,7 +11,7 @@ A Grove space is an Astro project; adding a page is a normal Astro workflow. Dro
 |---|---|
 | `src/pages/<page>.astro` | Curated pages with bespoke layout — submit form, changelog, status dashboard |
 | `content/pages/<page>.md` (rendered via `getPageContentHtml`) | Long-form prose with the default layout |
-| `data/records/<slug>.yml` + the scaffolded `[slug].astro` | Directory entries — pages generated from data |
+| `data/records/<slug>.yml` or `content/records/<slug>.md` + the scaffolded `[slug].astro` | Directory entries — pages generated from data |
 
 ## Adding an Astro page
 

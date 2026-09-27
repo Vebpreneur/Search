@@ -88,7 +88,7 @@ caveats:
 </Aside>
 
 <Aside type="caution" title="Using an inconsistent `slug`">
-  The slug is the filename minus `.yml`. If `slug: prisma-vs-drizzle` is in `prisma.yml`, the build still publishes it at `/resources/prisma-vs-drizzle/` — the filename always wins — but `grove check` prints a mismatch warning, and it's confusing for the next contributor. Keep them the same.
+  The slug is the filename minus `.yml` (or `.md` for a Markdown record). If `slug: prisma-vs-drizzle` is in `prisma.yml`, the build still publishes it at `/resources/prisma-vs-drizzle/` — the filename always wins — but `grove check` prints a mismatch warning, and it's confusing for the next contributor. Keep them the same.
 </Aside>
 
 <Aside type="caution" title="Don't write `github` or `health` into a record">
@@ -244,7 +244,7 @@ sync cache at build time (see above).
 
 ### What you'll do day-to-day
 
-- **Add a record** — create `data/records/<slug>.yml` with at least `name`; `slug` must be present in the file too, though the filename always wins, and `kind` is filled in for you.
+- **Add a record** — create `data/records/<slug>.yml` with at least `name` and `slug` (the filename wins if they differ), or `content/records/<slug>.md` with `name` in the frontmatter — a Markdown record takes its slug from the filename. `kind` is filled in for you.
 - **Add a Markdown body** — create `content/records/<slug>.md` and set `content:` to its relative path, or write the whole record as that one Markdown file, with the fields in its frontmatter (see [Record formats](/reference/record-schema/#record-formats)).
 - **Tag and categorize** — set `category`, `tags`, `stacks`, `platforms`, `licenses` from the matching `data/taxonomy/*.yml`.
 - **Curate** — set `curation.{reviewed,reviewedBy,labels,lenses}`, `scores.*`, or `visibility`.

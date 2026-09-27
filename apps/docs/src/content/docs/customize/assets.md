@@ -112,7 +112,7 @@ Stack icons in particular have to stay in `public/`: they are referenced by a UR
 
 ## What NOT to put in `public/`
 
-- Records — they're YAML under `data/records/`.
+- Records — they're YAML under `data/records/` or Markdown under `content/records/`.
 - Markdown content — long-form prose goes under `content/pages/`.
 - Hand-authored `llms.txt`/`llms-full.txt` — always overwritten on the next build; there's no ownership marker to remove.
 - Synced files — `public/icons/.grove-icons.json` is written by the build; it records which icons Grove owns.

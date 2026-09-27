@@ -1,6 +1,6 @@
 ---
 title: Add your first project
-description: Write a YAML record, save it, and see it render in your local directory.
+description: Write a record — YAML or Markdown — save it, and see it render in your local directory.
 ---
 
 import { Aside, CardGrid, LinkButton, LinkCard, Steps, Tabs, TabItem } from '@astrojs/starlight/components';
@@ -11,7 +11,7 @@ import { Aside, CardGrid, LinkButton, LinkCard, Steps, Tabs, TabItem } from '@as
 
 <Aside type="note" title="Prerequisites">
   - Node `>=22.12.0`
-  - pnpm `10.12.1` (or a compatible Node package manager — npm and bun tabs work too)
+  - A Node package manager — pnpm, npm or bun (the tabs below cover all three)
   - A scaffolded Grove space with `pnpm dev` running locally — see [Scaffold a space](/getting-started/scaffold/).
 </Aside>
 
@@ -37,6 +37,27 @@ import { Aside, CardGrid, LinkButton, LinkCard, Steps, Tabs, TabItem } from '@as
    caveats: []
    visibility: keep
    ```
+
+   <Aside type="tip" title="Prefer Markdown?">
+     The same record can be one Markdown file, `content/records/my-project.md`: the fields go in the frontmatter (you can leave `slug` out — the filename is the slug) and the notes shown on the detail page go underneath.
+
+     ```markdown title="content/records/my-project.md"
+     ---
+     name: My Project
+     description: A short description of what the project does and who it is for.
+     category: developer-tools
+     repoUrl: https://github.com/example/project
+     addedAt: 2026-09-27
+     submittedBy: your-github-login
+     ---
+
+     ## Why it's listed
+
+     The notes shown on the detail page.
+     ```
+
+     `addedAt` orders "Recently added"; `submittedBy` shows "Submitted by @login" on the page. Both work in YAML too.
+   </Aside>
 
    <Aside type="note" title="What you should see">
      Save the file. The dev server picks it up immediately and the project appears in your local directory at `http://localhost:4321/projects/my-project/`.
@@ -69,7 +90,7 @@ import { Aside, CardGrid, LinkButton, LinkCard, Steps, Tabs, TabItem } from '@as
 
      `grove check` is the only command you need for day-to-day validation — it bundles `validate`, generation, sitemap, llms, robots, og-image, and `astro check` into a single invocation.
 
-     Validation also runs automatically on every pull request through the `.github/workflows/ci.yml` workflow (which calls `grove check`).
+     `grove init` writes no CI workflow. To run `grove check` on every pull request, copy one from the Grove repo — see [Workflows](/outputs/workflows/).
    </Aside>
 
 3. ### Publish
@@ -83,7 +104,7 @@ import { Aside, CardGrid, LinkButton, LinkCard, Steps, Tabs, TabItem } from '@as
    ```
 
    <Aside type="note" title="What you should see">
-     Open a pull request. CI runs `grove check` plus `pnpm build` to validate the change. A maintainer reviews and merges; Grove rebuilds the site and deploys. If `integrations.github` is enabled, the scheduled `sync-github.yml` workflow runs `grove sync github` weekly and opens its own pull request with live stars, language, and last-pushed data — see [Sync GitHub metadata](/automation/sync-github/).
+     Open a pull request. With a CI workflow in place it runs `grove check` and the build; a maintainer reviews and merges, and your host rebuilds the site (see [Deployment](/deployment/overview/)). If `integrations.github` is enabled and you copied `sync-github.yml`, it runs `grove sync github` weekly and opens its own pull request that updates only `data/cache/github/` — see [Sync GitHub metadata](/automation/sync-github/).
    </Aside>
 
 </Steps>
@@ -96,7 +117,7 @@ For the `project-directory` blueprint (`kind: project`):
 | -------------- | -------- | ---------- |
 | `kind`         | auto     | Grove fills in `project` for you if you omit it — it always matches the `project-directory` blueprint. Real records write it anyway, for clarity. |
 | `name`         | yes      | Human-readable name. Shown in cards and headings. |
-| `slug`         | yes      | Must be a non-empty string in the file, but the build always uses the filename as the canonical slug — a mismatch only produces a warning, not a failure. Keep them the same to avoid confusing the next contributor. |
+| `slug`         | YAML: yes · Markdown: no | In a YAML record it must be a non-empty string, but the build always uses the filename as the canonical slug — a mismatch only produces a warning, not a failure. Keep them the same to avoid confusing the next contributor. |
 | `description`  | optional | One-sentence summary. Shown in lists and search snippets. Defaults to an empty string if omitted — write one anyway. |
 | `category`     | optional | One of your taxonomy categories. Defaults to `uncategorized`. |
 | `tags`         | optional | Free-form labels for filtering. |
@@ -106,6 +127,8 @@ For the `project-directory` blueprint (`kind: project`):
 | `platforms`    | optional | Platform filter chips. |
 | `bestFor` / `whyListed` / `caveats` | optional | Curator notes — surfaced on the detail page. |
 | `visibility`   | optional | `highlight` / `keep` / `needs_review` / `hide` / `remove` / `historical`. Defaults to `keep`. |
+| `addedAt`      | optional | ISO date the record joined the directory. Orders "Recently added". |
+| `submittedBy`  | optional | GitHub login of the submitter. Shown as "Submitted by @login" and on the contributors page. |
 
 The full schema is in [Project record reference](/reference/record-schema/).
 

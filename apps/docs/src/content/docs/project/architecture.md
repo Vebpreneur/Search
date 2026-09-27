@@ -26,7 +26,7 @@ Everything a Grove space generates — the JSON records, the sitemap, `llms.txt`
 One call to `prepareDirectory(cwd)` (`packages/core/src/prepare.ts:114-273`) runs, in order:
 
 1. **`loadConfig(root)`** — parses `grove.config.ts`, the single source of truth for blueprint, site metadata, paths, integrations, theme, and component overrides.
-2. **`generate(root, config)`** — reads every `.yml` file under the records directory, applies `data/decisions.yml` overrides, and writes `data/generated/records.full.json` and `data/generated/site-config.json`.
+2. **`generate(root, config)`** — reads every record (`.yml` under `paths.recordsDir`, `.md` under `paths.bodiesDir`), applies `data/decisions.yml` overrides, and writes `data/generated/records.full.json` and `data/generated/site-config.json`.
 3. Reads those two just-written files back into memory to feed the remaining stages.
 4. **`loadCollections(root)`** — loads every `Collection` from `data/collections/*.yml`.
 5. **`buildSitemap(...)`** — writes `public/sitemap.xml`, covering records, collections, and taxonomy pages.
@@ -43,7 +43,7 @@ The function returns `{ generated, sitemap, llms, siteArtifacts, ogImages }` —
 - **`@grove-dev/astro`'s `astro:config:setup` hook** (`packages/astro/src/index.ts:70-71`) — runs it once, before the rest of the Astro build, whenever the consumer project has a `grove.config.ts` at its root. This is why a Grove-powered Astro project's own `build` script can be nothing more than `astro build` — see `apps/example/package.json:13` — with no separate prebuild step; the integration hook does the data preparation as a side effect of `astro:config:setup`.
 - **`grove check`** (`packages/cli/src/index.ts:63-85`) — first runs `validateProject()` (schema, link, and config validation) and, only if that passes, calls `prepareDirectory()` and then `astro check`. This is the only place `astro check` and Grove's own validation run together; it's a separate, explicit step from `astro build`, and only Grove's own CI (the `build` job in `ci.yml`) invokes it as part of a normal run.
 
-There is no third path. Other CLI commands either call `prepareDirectory()` themselves where they need generated data (`grove sync contributors`) or work directly against `data/records/*.yml` without it (`grove sync github`, `grove import`).
+There is no third path. Other CLI commands either call `prepareDirectory()` themselves where they need generated data (`grove sync contributors`) or read the record files directly without it (`grove sync github` via `readRecordSources`; `grove import`, which writes new YAML records).
 
 `grove init` is a registry bootstrapper — it installs `@grove/default` into the consumer's `src/`, pins `@grove-dev/{core,astro,cli}` as dependencies, writes `grove.config.ts`, and emits `.grove/registry.lock.json` with the install-time hashes. Update reconciliation lives in `grove update`.
 

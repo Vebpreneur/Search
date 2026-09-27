@@ -3,7 +3,7 @@ title: Generate README
 description: Render an awesome-list formatted README block bounded by sentinels.
 ---
 
-`grove readme generate` renders a `sindresorhus/awesome`-style README from `data/records/*.yml` and `data/taxonomy/categories.yml`, using its own record loader (a separate, simpler pass over the YAML files, not the same normalized pipeline that feeds the site or `llms.txt`). The command writes the result between `<!-- grove-readme:start -->` and `<!-- grove-readme:end -->` sentinels in `README.md`. Content outside the sentinel block survives untouched.
+`grove readme generate` renders a `sindresorhus/awesome`-style README from your records and `data/taxonomy/categories.yml`. It loads records through the same normalized pipeline as the site and `llms.txt` (`loadNormalizedRecords`), so YAML and Markdown records, the sync cache and decisions all apply. The command writes the result between `<!-- grove-readme:start -->` and `<!-- grove-readme:end -->` sentinels in `README.md`. Content outside the sentinel block survives untouched.
 
 ## Sentinel block
 

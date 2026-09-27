@@ -114,7 +114,7 @@ See [Install the CLI](/getting-started/install-cli/) for the Node and pnpm versi
     - lib/ classnames, icon registry — UI-local helpers
     - styles/system.css design tokens, light/dark theme, Tailwind theme
   - data/
-    - records/ empty — your YAML records go here
+    - records/ empty — your records go here (YAML, or Markdown in content/records/)
   - .grove/
     - registry.lock.json install-time file hashes — what `grove update` diffs against
   - package.json Grove packages pinned to the CLI version + the scaffold's own deps (astro, tailwindcss, …)
@@ -130,7 +130,7 @@ Three files matter most going forward:
 
 - **`grove.config.ts`** — site config. Name, blueprint, theme tokens, GitHub integration toggle, audit manifest.
 - **`src/components/`** — your UI. Edit anything here directly; there's no build step between the file and the rendered page.
-- **`data/records/`** — your directory entries, one YAML file per record. `grove init` creates it empty — see [Add your first record](/getting-started/first-record/), next.
+- **`data/records/`** — your directory entries, one YAML file per record. A record can instead be one Markdown file in `content/records/<slug>.md` (fields as frontmatter, notes as the body). `grove init` creates `data/records/` empty — see [Add your first record](/getting-started/first-record/), next.
 
 ## What just happened
 

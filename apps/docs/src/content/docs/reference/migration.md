@@ -87,7 +87,7 @@ locally modified and leaves it alone, every run, until you merge it yourself.
 - **`recordsFileSchema` parses a single record directly.** It used to accept either an array or
   `{ records: [...] }` and required a separate `unwrapRecords()` call to get plain records out. It's
   now `recordsFileSchema = resourceSchema`, so `resourceSchema.parse(raw)` maps one YAML file to one
-  record directly. V1 is one YAML file per resource; multi-record files aren't supported.
+  record directly. One file is one record — `data/records/<slug>.yml`, or `content/records/<slug>.md` with frontmatter; multi-record files aren't supported.
 - **`@astrojs/starlight >= 0.41.4` is required** by `@grove-dev/starlight`. That's the first
   Starlight version whose `docsSchema({ extend })` deep-merges instead of intersecting — needed so
   the plugin's `hero.actions[].variant` enum can widen Starlight's own enum instead of narrowing it.

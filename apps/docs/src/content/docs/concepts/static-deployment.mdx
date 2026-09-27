@@ -59,7 +59,7 @@ The build is deterministic: the same source files plus the same `grove.config.ts
 
 <Tabs syncKey="trigger">
   <TabItem label="Local dev" icon="rocket">
-    `pnpm dev` (which runs `astro dev`). The Astro integration invokes `prepareDirectory()` from `@grove-dev/core` on every `astro:config:setup`, so a save in `data/records/*.yml` produces an updated dataset on the next reload.
+    `pnpm dev` (which runs `astro dev`). The Astro integration invokes `prepareDirectory()` from `@grove-dev/core` on every `astro:config:setup`, so a save in `data/records/*.yml` or `content/records/*.md` produces an updated dataset on the next reload.
   </TabItem>
   <TabItem label="CI validation" icon="setting">
     `.github/workflows/ci.yml` runs on every push to `main` and every pull request: `pnpm exec grove check` (schema validation, then the same generation step, then `astro check`), then `pnpm build`. This is a pass/fail gate — it does not deploy anything.
