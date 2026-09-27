@@ -8,8 +8,13 @@ packages:
   - apps/docs
 
 auditConfig:
-  ignoreCves:
+  # extract-zip (via lighthouse > puppeteer-core > @puppeteer/browsers) has
+  # no fixed release. Both advisories are about extracting an untrusted
+  # archive; here it only unpacks Chrome downloaded from Google's CDN for
+  # `grove audit`. Revisit when lighthouse drops or patches it.
+  ignoreGhsas:
     - GHSA-jmr9-qjv8-65gv
+    - GHSA-7pqw-9j4j-h8q3
 
 linkWorkspacePackages: true
 
@@ -17,5 +22,11 @@ overrides:
   sharp@<0.35.0: '>=0.35.0'
   yaml@>=2.0.0 <2.8.3: '>=2.8.3'
   '@opentelemetry/core@<2.8.0': '>=2.8.0'
+  fast-uri@>=3.0.0 <3.1.6: ^3.1.6
+  js-yaml@>=4.0.0 <4.3.2: ^4.3.2
+  smol-toml@<1.7.1: ^1.7.1
+  postcss-selector-parser@>=6.1.0 <6.1.3: ^6.1.3
+  devalue@<5.9.2: ^5.9.2
+  qs@>=2.2.5 <6.16.0: ^6.16.0
 
 preferWorkspacePackages: true
