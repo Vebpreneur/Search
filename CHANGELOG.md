@@ -22,6 +22,27 @@ For the developer workflow that produces these entries, see
 
 ---
 
+## [1.0.0](https://github.com/tortuvshin/grove/compare/v0.19.0...v1.0.0) (2026-09-27)
+
+
+### ⚠ BREAKING CHANGES
+
+* **core:** read entry.licenses instead of entry.license, and model.seo.jsonLd instead of model.jsonLd on collection pages; remove audit.pages[].sample from grove.config.ts.
+
+### Bug Fixes
+
+* **deps:** patch audited transitive dependencies ([f2f9a40](https://github.com/tortuvshin/grove/commit/f2f9a405e9a4910fb675d56fb3be0696a747535a))
+
+
+### Refactoring
+
+* **core:** drop legacy surface before 1.0 ([a36f42d](https://github.com/tortuvshin/grove/commit/a36f42d8d816260181e0a903bdf292db8aa54ad5))
+
+
+### Documentation
+
+* stability promise and migration notes for 1.0 ([a30dd28](https://github.com/tortuvshin/grove/commit/a30dd28306cadfafd22d76fe616d15bf73302d59))
+
 ## [0.19.0](https://github.com/tortuvshin/grove/compare/v0.18.0...v0.19.0) (2026-09-26)
 
 
