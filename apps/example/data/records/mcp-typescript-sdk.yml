@@ -1,0 +1,23 @@
+kind: project
+name: MCP TypeScript SDK
+slug: mcp-typescript-sdk
+description: Official TypeScript SDK for building Model Context Protocol clients and servers.
+category: developer-tools
+tags: [mcp, sdk, typescript, developer-tools]
+stack: typescript
+stacks: [typescript]
+platforms: [linux, macos, windows]
+licenses: [mit]
+projectType: library
+difficulty: intermediate
+codebaseSize: medium
+repoUrl: https://github.com/modelcontextprotocol/typescript-sdk
+logoUrl: https://modelcontextprotocol.io/favicon.ico
+links: { github: https://github.com/modelcontextprotocol/typescript-sdk, website: https://modelcontextprotocol.io }
+bestFor: [Building MCP servers, Building MCP clients, TypeScript integrations]
+whyListed: [Official Model Context Protocol SDK, TypeScript support]
+caveats: [Requires application-specific MCP implementation]
+distribution: { channels: [] }
+source: { type: manual }
+curation: { reviewed: true, reviewedBy: grove, reviewedAt: "2026-09-28", labels: [], lenses: [] }
+visibility: keep
