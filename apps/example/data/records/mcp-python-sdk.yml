@@ -1,0 +1,23 @@
+kind: project
+name: MCP Python SDK
+slug: mcp-python-sdk
+description: Official Python SDK for building Model Context Protocol clients and servers.
+category: developer-tools
+tags: [mcp, sdk, python, developer-tools]
+stack: python
+stacks: [python]
+platforms: [linux, macos, windows]
+licenses: [mit]
+projectType: library
+difficulty: intermediate
+codebaseSize: medium
+repoUrl: https://github.com/modelcontextprotocol/python-sdk
+logoUrl: https://modelcontextprotocol.io/favicon.ico
+links: { github: https://github.com/modelcontextprotocol/python-sdk, website: https://modelcontextprotocol.io }
+bestFor: [Building MCP servers, Building MCP clients, Python integrations]
+whyListed: [Official Model Context Protocol SDK, Python support]
+caveats: [Requires application-specific MCP implementation]
+distribution: { channels: [] }
+source: { type: manual }
+curation: { reviewed: true, reviewedBy: grove, reviewedAt: "2026-09-28", labels: [], lenses: [] }
+visibility: keep
