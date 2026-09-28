@@ -1,0 +1,23 @@
+kind: project
+name: GitHub MCP Server
+slug: github-mcp
+description: Official GitHub MCP server for connecting AI tools to repositories, code, issues, pull requests, Actions, and GitHub workflows.
+category: developer-tools
+tags: [mcp, github, developer-tools, automation]
+stack: go
+stacks: [go]
+platforms: [linux, macos, windows]
+licenses: [mit]
+projectType: tool
+difficulty: intermediate
+codebaseSize: large
+repoUrl: https://github.com/github/github-mcp-server
+logoUrl: https://github.com/favicon.ico
+links: { github: https://github.com/github/github-mcp-server, website: https://github.com/github/github-mcp-server }
+bestFor: [Repository management, Issue and pull request automation, Code search, GitHub Actions workflows]
+whyListed: [Official GitHub MCP implementation, Broad GitHub API coverage]
+caveats: [Requires GitHub authentication for account and repository access]
+distribution: { channels: [] }
+source: { type: manual }
+curation: { reviewed: true, reviewedBy: grove, reviewedAt: "2026-09-28", labels: [], lenses: [] }
+visibility: keep
